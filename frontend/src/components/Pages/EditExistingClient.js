@@ -19,8 +19,6 @@ const EditExistingClient = () => {
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
     const [hobby, setHobby] = useState('');
-    const [importantDate, setImportantDate] = useState('');
-    const [note, setNote] = useState('');
     const [familySituation, setFamilySituation] = useState('');
     const [birthday, setBirthday] = useState('');
     const [reasonOfKnowing, setReasonOfKnowing] = useState('');
@@ -28,6 +26,7 @@ const EditExistingClient = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [additionalNote, setAdditionalNote] = useState('');
+    const [importantDatesAndNotes, setImportantDatesAndNotes] = useState([]);
 
 
 
@@ -42,8 +41,6 @@ const EditExistingClient = () => {
             setName(row.name || '');
             setCompany(row.company || '');
             setHobby(row.hobby || '');
-            setImportantDate(row.importantDate ? new Date(row.importantDate) : '');
-            setNote(row.note || '');
             setFamilySituation(row.familySituation || '');
             setBirthday(row.birthday ? new Date(row.birthday) : '');
             setReasonOfKnowing(row.reasonOfKnowing || '');
@@ -51,6 +48,15 @@ const EditExistingClient = () => {
             setPhoneNumber(row.phoneNumber ? String(row.phoneNumber) : ''); 
             setEmail(row.email || '');
             setAdditionalNote(row.additionalNote || '');
+            // setImportantDatesAndNotes(row.importantDatesAndNotes || []);
+            setImportantDatesAndNotes(
+                row.importantDatesAndNotes
+                    ? row.importantDatesAndNotes.map(item => ({
+                          importantDate: item.importantDate ? new Date(item.importantDate) : null,
+                          note: item.note,
+                      }))
+                    : []
+            );
         } else {
             console.error("No data found");
             navigate('/MainPage'); // Redirect to main page if no data is found
@@ -81,82 +87,110 @@ const EditExistingClient = () => {
 
     // removes all fields
     const resetFields = () => {
-        setName(''); setCompany(''); setHobby(''); setImportantDate('');
-        setNote(''); setFamilySituation(''); setBirthday('');
-        setReasonOfKnowing(''); setPosition(''); setPhoneNumber('');
-        setEmail(''); setAdditionalNote('');
+        setName(''); 
+        setHobby('');
+        setEmail(''); 
+        setCompany(''); 
+        setBirthday('');
+        setPosition(''); 
+        setPhoneNumber('');
+        setFamilySituation(''); 
+        setReasonOfKnowing(''); 
+        setAdditionalNote('');
+        setImportantDatesAndNotes([]);
     };
 
-    // Function to handle saving as a draft
+    const handleAddRow = () => {
+        setImportantDatesAndNotes([...importantDatesAndNotes, { importantDate: '', note: '' }]);
+    };
+
+    const handleRemoveRow = (index) => {
+        const updatedRows = importantDatesAndNotes.filter((_, i) => i !== index);
+        setImportantDatesAndNotes(updatedRows);
+    };
+
+    const handleRowChange = (index, field, value) => {
+        const updatedRows = [...importantDatesAndNotes];
+        updatedRows[index][field] = value;
+        setImportantDatesAndNotes(updatedRows);
+    };
+
     const handleSaveDraft = async (e) => {
-        e.preventDefault(); // prevents refreshing and losing data
-        const row = selectedRow;
+        e.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
-    
-        if (!(name === "" || hobby === "" || company === "")) { 
-            const cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); 
+        if (!validateForm()) return;
 
-            try {
-                const draftDetails = {
-                    name,
-                    company,
-                    hobby,
-                    importantDate: importantDate ? importantDate.toISOString() : null,
-                    note,
-                    familySituation,
-                    birthday: birthday ? birthday.toISOString() : null,
-                    reasonOfKnowing,
-                    position,
-                    phoneNumber: cleanedPhoneNumber,
-                    email,
-                    additionalNote,
-                    draftStatus: true // Setting draft status to true
-                };
-                if(row._id!==undefined){
-                    await updateRecord(row._id,draftDetails);
-                } else
+        const draftDetails = {
+            name,
+            company,
+            hobby,
+            familySituation,
+            birthday: birthday ? birthday.toISOString() : null,
+            reasonOfKnowing,
+            position,
+            phoneNumber,
+            email,
+            additionalNote,
+            importantDatesAndNotes: importantDatesAndNotes.map(row => ({
+                importantDate: row.importantDate instanceof Date && !isNaN(row.importantDate)
+                    ? row.importantDate.toISOString()
+                    : null, // Ensure it's a valid Date object or null
+                note: row.note,
+            })),
+            draftStatus: true,
+        };
+
+        try {
+            if (selectedRow._id) {
+                await updateRecord(selectedRow._id, draftDetails);
+            } else {
                 await createRecord(draftDetails);
-                resetFields();
-                navigate('/draft'); // Navigate to drafts page after saving
-            } catch (error) {
-                console.error('Error saving draft:', error);
             }
+            resetFields();
+            navigate('/draft');
+        } catch (error) {
+            console.error('Error saving draft:', error);
         }
     };
 
-    // upon submission, post data to backend, clear fields, send to home page
     const handleSubmit = async (e) => {
-        e.preventDefault(); // prevents refreshing and losing data
-        const row = selectedRow;
-        const prevDraftStatus = row.draftStatus;
+        e.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
-        if (!(name === "" || hobby === "" || company === "")) {
-            const cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); 
-            try {
-                    const clientDetails = { name, company, hobby, importantDate: importantDate ? importantDate.toISOString(): null, note, familySituation, birthday: birthday ? birthday.toISOString(): null,
-                        reasonOfKnowing, position, phoneNumber: cleanedPhoneNumber, email, additionalNote, draftStatus: false
-                    }
-                    if(!prevDraftStatus){
-                        await updateRecord(row._id,clientDetails);
-                    }
-                    else if(prevDraftStatus === true){
-                        await createRecord(clientDetails);
-                        await deleteDraft(row._id);
-                    }
-                resetFields();
-                navigate('/MainPage'); // redirects to home page
-            } catch (error) {
-                console.error('Error editing client: ', error);
+        const clientDetails = {
+            name,
+            company,
+            hobby,
+            familySituation,
+            birthday: birthday ? birthday.toISOString() : null,
+            reasonOfKnowing,
+            position,
+            phoneNumber,
+            email,
+            additionalNote,
+            importantDatesAndNotes: importantDatesAndNotes.map(row => ({
+                importantDate: row.importantDate instanceof Date && !isNaN(row.importantDate)
+                    ? row.importantDate.toISOString()
+                    : null, // Ensure it's a valid Date object or null
+                note: row.note,
+            })),
+            draftStatus: false,
+        };
+
+        try {
+            if (selectedRow.draftStatus) {
+                await createRecord(clientDetails);
+                await deleteDraft(selectedRow._id);
+            } else {
+                await updateRecord(selectedRow._id, clientDetails);
             }
+            resetFields();
+            navigate('/MainPage');
+        } catch (error) {
+            console.error('Error submitting client:', error);
         }
-    }
+    };
 
     const handleDelete = (state) => {
         // Set the record to delete and show the popup
@@ -248,30 +282,42 @@ const EditExistingClient = () => {
                             />
                         </div>
                     </div>
-                    <div className='form-row2'>
-                        <div className='label-input-group'>
-                            <label>Important Date</label>
-                            <DatePicker
-                                className="date-important"
-                                dateFormat="yyyy/MM/dd"
-                                selected={importantDate}
-                                type="text"
-                                onChange={(date) => setImportantDate(date)}
-                                placeholderText='YYYY/MM/DD'
-                                portalId="root-portal" // keeps the calendar fixed
-                            />
+                    {importantDatesAndNotes.map((row, index) => (
+                        <div key={index} className="form-row2">
+                            <div className="label-input-group">
+                                <label>Important Date</label>
+                                <DatePicker
+                                    className="date-important"
+                                    dateFormat="yyyy/MM/dd"
+                                    selected={row.importantDate}
+                                    onChange={(date) => handleRowChange(index, "importantDate", date)}
+                                />
+                            </div>
+                            <div className="label-input-group">
+                                <label>Note</label>
+                                <textarea
+                                    className="note"
+                                    value={row.note}
+                                    onChange={(e) => handleRowChange(index, "note", e.target.value)}
+                                />
+                            </div>
+                            <div className="note-buttons">
+                                <button type="button" className="add-button" onClick={handleAddRow}>
+                                    +
+                                </button>
+                                {importantDatesAndNotes.length > 1 && (
+                                    <button
+                                        type="button"
+                                        className="remove-button"
+                                        onClick={() => handleRemoveRow(index)}
+                                    >
+                                        <span className="minus">-</span>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
 
-                        </div>
-                        <div className='label-input-group'>
-                            <label>Note</label>
-                            <textarea
-                                className='note'
-                                type="text"
-                                value={note}
-                                onChange={(e) => setNote(e.target.value)}
-                            />
-                        </div>
-                    </div>
                     <div className='form-row3'>
                         <div className='label-input-group'>
                             <label>Family Situation</label>
