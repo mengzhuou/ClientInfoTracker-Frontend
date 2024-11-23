@@ -19,7 +19,7 @@ class RecordTable extends Component {
             suppressHorizontalScroll: true,
             records: null, // To store the fetched records
             loading: true, // Show loading state
-            error: false, // Track if there's an error
+            error: false, 
         };
         this.gridApi = null;
     }
@@ -29,19 +29,37 @@ class RecordTable extends Component {
     }
 
     importantDateFormatter = (params) => {
-        let date = params.data.importantDate;
-
-        if (!date) {
-            date = '';
-        } else {
-            const time = new Date(date);
-            date = time.toISOString().split('T')[0];
+        const today = new Date();
+        const date = params.data.importantDatesAndNotes;
+    
+        if (!date || date.length === 0) {
+            return '';
         }
-        if (!params.data.note) {
-            params.data.note = '';
-        }
-        return date + '\n' + params.data.note;
-    };
+    
+        const closestDate = date.reduce((closest, current) => {
+            const currentImportantDate = new Date(current.importantDate);
+    
+            if (isNaN(currentImportantDate)) return closest;
+    
+            const currentDifference = Math.abs(currentImportantDate - today);
+            const closestDifference = Math.abs(new Date(closest.importantDate) - today);
+    
+            // Choose the closest date; if the difference is the same, pick the most recently created entry
+            if (
+                currentDifference < closestDifference ||
+                (currentDifference === closestDifference &&
+                    new Date(current.createdAt) > new Date(closest.createdAt))
+            ) {
+                return current;
+            }
+    
+            return closest;
+        }, date[0]);
+    
+        // Format the closest date and return the corresponding note
+        const formattedDate = new Date(closestDate.importantDate).toISOString().split('T')[0];
+        return `${formattedDate}\n${closestDate.note || ''}`;
+    };    
 
     dateFormatter = (params) => {
         if (!params.value) {
