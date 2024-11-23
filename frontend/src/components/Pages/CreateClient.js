@@ -210,6 +210,16 @@ const CreateClient = (props) => {
                                 onChange={handleChange}
                             />
                         </div>
+                        <div className='note-buttons'>
+                            <button type="button" className="add-button" onClick={() => console.log('Add clicked')}>
+                                +
+                            </button>
+                            <button type="button" className="remove-button" onClick={() => console.log('Remove clicked')}>
+                                <span className='minus'>
+                                    -
+                                </span>
+                            </button>
+                        </div>
                     </div>
                     <div className='form-row3'>
                         <div className='label-input-group'>
