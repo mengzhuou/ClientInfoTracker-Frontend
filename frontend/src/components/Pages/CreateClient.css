@@ -126,7 +126,7 @@ label {
     width: fit-content;
     height: fit-content;
     min-width: 100px;
-    max-width: 400px;
+    max-width: 300px;
     max-height: 150px;
     field-sizing: content;
     border-color: #938f8f;
@@ -270,6 +270,47 @@ label {
     color: red;
 }
 
+
+.note-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 3%;
+}
+
+.add-button,
+.remove-button {
+    background-color: #4caf50; /* Adjust color */
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+}
+
+.add-button {
+    background-color: rgb(210, 233, 210); /* Green */
+}
+
+.remove-button {
+    background-color: rgb(246, 170, 170); 
+    margin-left: 30px;
+}
+
+.minus {
+    margin-bottom: 6px;
+}
+
+.add-button:hover,
+.remove-button:hover {
+    opacity: 0.9;
+}
+
 @media (max-width: 768px) {
     .form-row2 {
         flex-direction: row;
@@ -315,6 +356,10 @@ label {
 
     .additional-note {
         min-width: 370px;
+    }
+    
+    .note-buttons {
+        margin-left: 1%;
     }
 
 }

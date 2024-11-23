@@ -11,47 +11,58 @@ class RecordTable extends Component {
                 { headerName: "Name", field: "name", sortable: true, flex: 1 },
                 { headerName: "Company", field: "company", sortable: true, flex: 1 },
                 { headerName: "Hobby", field: "hobby", sortable: true, flex: 1 },
-                { headerName: "Important Date", cellRenderer: this.importantDateFormatter, sortable: true, cellStyle: { 'white-space': 'pre' }, flex: 2, wrapText: true, autoHeight:true },
+                { headerName: "Important Date", cellRenderer: this.importantDateFormatter, sortable: true, cellStyle: { 'white-space': 'pre' }, flex: 2, wrapText: true, autoHeight: true },
                 { headerName: "Family", field: "familySituation", sortable: true, flex: 1 }
             ],
             defaultColDef: { sortable: true, resizable: true },
             domLayout: 'autoHeight',
             suppressHorizontalScroll: true,
+            records: null, // To store the fetched records
+            loading: true, // Show loading state
+            error: false, 
         };
-    this.gridApi=null;
+        this.gridApi = null;
     }
+
     componentDidMount() {
-        this.loadRecords();
+        this.loadRecordsWithRetry(10, 3000); // Call the retry logic with 10 attempts and 3-second intervals
     }
 
-    //function for combine important date and note to show in one cell
     importantDateFormatter = (params) => {
-        let date = params.data.importantDate;
-
-        if (!date) {
-            date = '';
-        } else {
-            const time = new Date(date);
-            date = time.toISOString().split('T')[0];
+        const today = new Date();
+        const date = params.data.importantDatesAndNotes;
+    
+        if (!date || date.length === 0) {
+            return '';
         }
-        if (!params.data.note) {
-            params.data.note = '';
-        }
-        return date  + '\n' + params.data.note;
-    }
-
-    loadRecords = async () => {
-        try {
-            const records = await getRecords();
-            const reversedRecords = records.reverse();
-            this.setState({ records: reversedRecords });
-        } catch (error) {
-            console.error("Error loading records:", error);
-        }
-    };
+    
+        const closestDate = date.reduce((closest, current) => {
+            const currentImportantDate = new Date(current.importantDate);
+    
+            if (isNaN(currentImportantDate)) return closest;
+    
+            const currentDifference = Math.abs(currentImportantDate - today);
+            const closestDifference = Math.abs(new Date(closest.importantDate) - today);
+    
+            // Choose the closest date; if the difference is the same, pick the most recently created entry
+            if (
+                currentDifference < closestDifference ||
+                (currentDifference === closestDifference &&
+                    new Date(current.createdAt) > new Date(closest.createdAt))
+            ) {
+                return current;
+            }
+    
+            return closest;
+        }, date[0]);
+    
+        // Format the closest date and return the corresponding note
+        const formattedDate = new Date(closestDate.importantDate).toISOString().split('T')[0];
+        return `${formattedDate}\n${closestDate.note || ''}`;
+    };    
 
     dateFormatter = (params) => {
-        if (!params.value){
+        if (!params.value) {
             return '';
         }
         const date = new Date(params.value);
@@ -59,39 +70,66 @@ class RecordTable extends Component {
             return date.toISOString().split('T')[0];
         }
         return params.value;
-    }
-
-    onGridReady = (params) => {
-        this.gridApi = params.api; // Save the grid API for later use
     };
 
-    // handleRowSelected = () => {
-    //     const selectedData = this.gridApi.getSelectedRows();
-    //     console.log("Selected Row Data:", selectedData); // Debugging
-    //     return selectedData;
-    
-    // }
+    loadRecords = async () => {
+        const records = await getRecords();
+        return records.reverse();
+    };
+
+    loadRecordsWithRetry = (maxAttempts, delay) => {
+        let attempts = 0;
+        
+        const attemptFetch = async () => {
+            try {
+                const records = await this.loadRecords();
+                this.setState({ records, loading: false, error: false });
+            } catch (error) {
+                attempts++;
+                console.error(`Attempt ${attempts} failed. Error loading records:`, error);
+
+                if (attempts < maxAttempts) {
+                    setTimeout(attemptFetch, delay); 
+                } else {
+                    this.setState({ loading: false, error: true });
+                    console.error("Max attempts reached. Failed to fetch records.");
+                }
+            }
+        };
+
+        attemptFetch(); 
+    };
+
+    onGridReady = (params) => {
+        this.gridApi = params.api; 
+    };
 
     onSelectionChanged = () => {
         if (this.gridApi && this.props.onRowSelected) {
             const selectedRows = this.gridApi.getSelectedRows();
-            this.props.onRowSelected(selectedRows); // Pass selected data to parent
+            this.props.onRowSelected(selectedRows); 
         }
     };
 
     render() {
+        const { loading, error, records } = this.state;
+
         return (
             <div className="body">
                 <div className="RecordPageContainer">
-                    <AgGridTable
-                        rowData={this.state.records} 
-                        columnDefs={this.state.columnDefs}
-                        defaultColDef={this.state.defaultColDef}
-                        domLayout={this.state.domLayout}
-                        suppressHorizontalScroll={this.state.suppressHorizontalScroll}
-                        onGridReady={this.onGridReady} 
-                        onSelectionChanged={this.onSelectionChanged}
-                    />
+                    {loading && <div>Loading...</div>}
+                    {error && <div>Error fetching records. Retrying...</div>}
+                    {!loading && !error && (
+                        <AgGridTable
+                            rowData={records}
+                            columnDefs={this.state.columnDefs}
+                            defaultColDef={this.state.defaultColDef}
+                            domLayout={this.state.domLayout}
+                            suppressHorizontalScroll={this.state.suppressHorizontalScroll}
+                            onGridReady={this.onGridReady}
+                            onSelectionChanged={this.onSelectionChanged}
+                        />
+                    )}
                 </div>
             </div>
         );

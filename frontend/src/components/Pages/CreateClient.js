@@ -23,7 +23,6 @@ const CreateClient = (props) => {
         additionalNote: savedData.additionalNote || ''
     });
 
-    // Handle input changes and update formData
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedData = { ...formData, [name]: value };
@@ -32,7 +31,7 @@ const CreateClient = (props) => {
         localStorage.setItem('createClientFormData', JSON.stringify(updatedData));
     };
 
-    // Handle date picker changes
+    // birthday date picker changes
     const handleDateChange = (name, date) => {
         const updatedData = { ...formData, [name]: date };
         setFormData(updatedData);
@@ -70,52 +69,60 @@ const CreateClient = (props) => {
             .join('-');
     };
 
-        // Function to handle saving as a draft
-        const handleSaveDraft = async (e) => {
-            e.preventDefault();
-    
-            if (!validateForm()) {
-                return;
-            }
-    
-            const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, ''); 
-    
-            const draftDetails = {
-                ...formData,
-                importantDate: formData.importantDate ? formData.importantDate.toISOString() : null,
-                birthday: formData.birthday ? formData.birthday.toISOString() : null,
-                phoneNumber: cleanedPhoneNumber, 
-                draftStatus: true
-            };
-            try {
-                await createRecord(draftDetails);
-                console.log('New draft created');
-                resetFields();
-                props.navigate('/draft');
-            } catch (error) {
-                console.error('Error saving draft:', error);
-                alert('Failed to save draft. Data is saved locally.');
-            }
-        };
-    
-    // Submit client details
-    const handleSubmit = async (e) => {
+    const handleSaveDraft = async (e) => {
         e.preventDefault();
-
+    
         if (!validateForm()) {
             return;
         }
-
-        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, ''); 
-
+    
+        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
+    
+        const importantDatesAndNotes = dateNoteRows.map((row) => ({
+            importantDate: row.importantDate ? row.importantDate.toISOString() : null,
+            note: row.note || '',
+        }));
+    
+        const draftDetails = {
+            ...formData,
+            importantDatesAndNotes, 
+            birthday: formData.birthday ? formData.birthday.toISOString() : null,
+            phoneNumber: cleanedPhoneNumber,
+            draftStatus: true,
+        };
+    
+        try {
+            await createRecord(draftDetails);
+            resetFields();
+            props.navigate('/draft');
+        } catch (error) {
+            console.error('Error saving draft:', error);
+            alert('Failed to save draft. Data is saved locally.');
+        }
+    };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        if (!validateForm()) {
+            return;
+        }
+    
+        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
+    
+        const importantDatesAndNotes = dateNoteRows.map((row) => ({
+            importantDate: row.importantDate ? row.importantDate.toISOString() : null,
+            note: row.note || '',
+        }));
+    
         const clientDetails = {
             ...formData,
-            importantDate: formData.importantDate ? formData.importantDate.toISOString() : null,
+            importantDatesAndNotes,
             birthday: formData.birthday ? formData.birthday.toISOString() : null,
-            phoneNumber: cleanedPhoneNumber, 
-            draftStatus: false  
+            phoneNumber: cleanedPhoneNumber,
+            draftStatus: false,
         };
-        
+    
         try {
             await createRecord(clientDetails);
             console.log('New client added');
@@ -127,7 +134,7 @@ const CreateClient = (props) => {
         }
     };
     
-    // Reset form fields
+    
     const resetFields = () => {
         setFormData({
             name: '',
@@ -145,6 +152,33 @@ const CreateClient = (props) => {
         }); 
         localStorage.removeItem('createClientFormData');
     };
+
+    const [dateNoteRows, setDateNoteRows] = useState([
+        { importantDate: '', note: '' }
+    ]);
+
+    // input changes for dynamic rows
+    const handleRowChange = (index, field, value) => {
+        const updatedRows = [...dateNoteRows];
+        updatedRows[index][field] = value;
+        setDateNoteRows(updatedRows);
+    };
+
+    const addRow = () => {
+        setDateNoteRows([...dateNoteRows, { importantDate: '', note: '' }]);
+    };
+
+    const removeRow = (index) => {
+        const updatedRows = dateNoteRows.filter((_, i) => i !== index);
+        setDateNoteRows(updatedRows);
+    };
+
+    const handleImportantDateChange = (index, date) => {
+        const updatedRows = [...dateNoteRows];
+        updatedRows[index].importantDate = date;
+        setDateNoteRows(updatedRows);
+    };
+
     
 
     return (
@@ -187,31 +221,47 @@ const CreateClient = (props) => {
                             />
                         </div>
                     </div>
-                    <div className='form-row2'>
-                        <div className='label-input-group'>
-                            <label>Important Date</label>
-                            <DatePicker
-                                className="date-important"
-                                dateFormat="yyyy/MM/dd"
-                                selected={formData.importantDate}
-                                onChange={(date) => handleDateChange('importantDate', date)}
-                                placeholderText='YYYY/MM/DD'
-                                portalId="root-portal"
-                            />
-
+                    {dateNoteRows.map((row, index) => (
+                        <div key={index} className='form-row2'>
+                            <div className='label-input-group'>
+                                <label>Important Date</label>
+                                <DatePicker
+                                    className="date-important"
+                                    dateFormat="yyyy/MM/dd"
+                                    selected={row.importantDate}
+                                    onChange={(date) => handleImportantDateChange(index, date)}
+                                    placeholderText='YYYY/MM/DD'
+                                    portalId="root-portal"
+                                />
+                            </div>
+                            <div className='label-input-group'>
+                                <label>Note</label>
+                                <textarea
+                                    className='note'
+                                    type="text"
+                                    value={row.note}
+                                    onChange={(e) => handleRowChange(index, 'note', e.target.value)}
+                                />
+                            </div>
+                            <div className='note-buttons'>
+                                <button type="button" className="add-button" onClick={addRow}>
+                                    +
+                                </button>
+                                {dateNoteRows.length > 1 && (
+                                    <button
+                                        type="button"
+                                        className="remove-button"
+                                        onClick={() => removeRow(index)}
+                                    >
+                                        <span className='minus'>
+                                            -
+                                        </span>
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                        <div className='label-input-group'>
-                            <label>Note</label>
-                            <textarea
-                                className='note'
-                                type="text"
-                                name="note"
-                                value={formData.note}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </div>
-                    <div className='form-row3'>
+                    ))}
+                <div className='form-row3'>
                         <div className='label-input-group'>
                             <label>Family Situation</label>
                             <input
