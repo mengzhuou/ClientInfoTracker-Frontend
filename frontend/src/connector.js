@@ -14,7 +14,7 @@ const getRecords = async () => {
 
 const updateRecord = async (recordId, data) => {
     console.log("Updating Record:", recordId, data);
-    const { name, company, hobby } = data;
+    const { name, company, hobby, importantDatesAndNotes } = data;
 
     // Frontend Validation
     if (!company || typeof company !== 'string') {
@@ -27,6 +27,10 @@ const updateRecord = async (recordId, data) => {
 
     if (!hobby || typeof hobby !== 'string') {
         throw new Error('Hobby is required and must be a string');
+    }
+
+    if (!Array.isArray(importantDatesAndNotes)) {
+        throw new Error('importantDatesAndNotes must be an array');
     }
 
     try {
@@ -46,9 +50,8 @@ const updateRecord = async (recordId, data) => {
 
 const updateDraft = async (draftId, data) => {
     console.log("Updating Draft:", draftId, data);
-    const { name, company, hobby } = data;
+    const { name, company, hobby, importantDatesAndNotes } = data;
 
-    // Frontend Validation
     if (!company || typeof company !== 'string') {
         throw new Error('Company is required and must be a string');
     }
@@ -59,6 +62,10 @@ const updateDraft = async (draftId, data) => {
 
     if (!hobby || typeof hobby !== 'string') {
         throw new Error('Hobby is required and must be a string');
+    }
+
+    if (!Array.isArray(importantDatesAndNotes)) {
+        throw new Error('importantDatesAndNotes must be an array');
     }
 
     try {
@@ -77,9 +84,8 @@ const updateDraft = async (draftId, data) => {
 };
 
 const createRecord = async (data) => {
-    const { name, company, hobby } = data;
+    const { name, company, hobby, importantDatesAndNotes } = data;
 
-    // Frontend Validation
     if (!company || typeof company !== 'string') {
         throw new Error('Company is required and must be a string');
     }
@@ -90,6 +96,10 @@ const createRecord = async (data) => {
 
     if (!hobby || typeof hobby !== 'string') {
         throw new Error('Hobby is required and must be a string');
+    }
+
+    if (!Array.isArray(importantDatesAndNotes)) {
+        throw new Error('importantDatesAndNotes must be an array');
     }
 
     try {

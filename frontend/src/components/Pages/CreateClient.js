@@ -69,28 +69,30 @@ const CreateClient = (props) => {
             .join('-');
     };
 
-    // Function to handle saving as a draft
     const handleSaveDraft = async (e) => {
         e.preventDefault();
-
+    
         if (!validateForm()) {
             return;
         }
-
-        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, ''); 
-        console.log("formData.importantDate: ", formData.importantDate)
-
+    
+        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
+    
+        const importantDatesAndNotes = dateNoteRows.map((row) => ({
+            importantDate: row.importantDate ? row.importantDate.toISOString() : null,
+            note: row.note || '',
+        }));
+    
         const draftDetails = {
             ...formData,
-            importantDate: formData.importantDate ? formData.importantDate.toISOString() : null,
+            importantDatesAndNotes, 
             birthday: formData.birthday ? formData.birthday.toISOString() : null,
-            phoneNumber: cleanedPhoneNumber, 
-            draftStatus: true
+            phoneNumber: cleanedPhoneNumber,
+            draftStatus: true,
         };
+    
         try {
-            console.log("draftDetails: ", draftDetails)
             await createRecord(draftDetails);
-            console.log('New draft created');
             resetFields();
             props.navigate('/draft');
         } catch (error) {
@@ -101,21 +103,26 @@ const CreateClient = (props) => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!validateForm()) {
             return;
         }
-
-        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, ''); 
-
+    
+        const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
+    
+        const importantDatesAndNotes = dateNoteRows.map((row) => ({
+            importantDate: row.importantDate ? row.importantDate.toISOString() : null,
+            note: row.note || '',
+        }));
+    
         const clientDetails = {
             ...formData,
-            importantDate: formData.importantDate ? formData.importantDate.toISOString() : null,
+            importantDatesAndNotes,
             birthday: formData.birthday ? formData.birthday.toISOString() : null,
-            phoneNumber: cleanedPhoneNumber, 
-            draftStatus: false  
+            phoneNumber: cleanedPhoneNumber,
+            draftStatus: false,
         };
-        
+    
         try {
             await createRecord(clientDetails);
             console.log('New client added');
@@ -126,6 +133,7 @@ const CreateClient = (props) => {
             alert('Failed to add client. Data is saved locally.');
         }
     };
+    
     
     const resetFields = () => {
         setFormData({
