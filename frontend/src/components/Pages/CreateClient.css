@@ -126,7 +126,7 @@ label {
     width: fit-content;
     height: fit-content;
     min-width: 100px;
-    max-width: 400px;
+    max-width: 300px;
     max-height: 150px;
     field-sizing: content;
     border-color: #938f8f;
