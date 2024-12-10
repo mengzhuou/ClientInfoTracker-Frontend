@@ -311,7 +311,7 @@ label {
     opacity: 0.9;
 }
 
-.emailErr {
+.errMessage {
     color: red;
     margin-top: 3px;
 }

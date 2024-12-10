@@ -24,7 +24,11 @@ const CreateClient = (props) => {
         email: savedData.email || '',
         additionalNote: savedData.additionalNote || ''
     });
+
     const [emailError, setEmailError] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [companyError, setCompanyError] = useState('');
+    const [hobbyError, setHobbyError] = useState('');
 
     const validateEmail = (email) => {
         if (validator.isEmail(email)) {
@@ -40,10 +44,14 @@ const CreateClient = (props) => {
         const { name, value } = e.target;
         const updatedData = { ...formData, [name]: value };
         setFormData(updatedData);
-        // Save updated data to localStorage
         localStorage.setItem('createClientFormData', JSON.stringify(updatedData));
+    
+        if (name === 'name') validateName(value);
+        if (name === 'company') validateCompany(value);
+        if (name === 'hobby') validateHobby(value);
+        if (name === 'email') validateEmail(value);
     };
-
+    
     // birthday date picker changes
     const handleDateChange = (name, date) => {
         const updatedData = { ...formData, [name]: date };
@@ -53,29 +61,43 @@ const CreateClient = (props) => {
     };
 
     const validateForm = () => {
-        const requiredFields = ['name', 'company', 'hobby', 'email'];
-        for (const field of requiredFields) {
-            if (!formData[field].trim()) {
-                alert(`Please fill out the ${field} field.`);
-                return false;
-            }
-        }
+        const isNameValid = validateName(formData.name);
+        const isCompanyValid = validateCompany(formData.company);
+        const isHobbyValid = validateHobby(formData.hobby);
+        const isEmailValid = validateEmail(formData.email);
     
-        if (!validateEmail(formData.email)) {
+        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
+    };
+
+    const validateName = (name) => {
+        if (name.trim()) {
+            setNameError('');
+            return true;
+        } else {
+            setNameError('Name is required');
             return false;
         }
-    
-        const { phoneNumber } = formData; 
-        if (phoneNumber.length !== 0) {
-            const cleanedPhoneNumber = phoneNumber.replace(/[^0-9]/g, ''); 
-            if (cleanedPhoneNumber.length !== 10) {
-                alert('Phone number must be either empty or exactly in the format "999-999-9999".');
-                return false;
-            }
-        }
-        return true;
     };
     
+    const validateCompany = (company) => {
+        if (company.trim()) {
+            setCompanyError('');
+            return true;
+        } else {
+            setCompanyError('Company is required');
+            return false;
+        }
+    };
+    
+    const validateHobby = (hobby) => {
+        if (hobby.trim()) {
+            setHobbyError('');
+            return true;
+        } else {
+            setHobbyError('Hobby is required');
+            return false;
+        }
+    };    
 
     const formatPhoneNumber = (number) => {
         if (!number) return ''; 
@@ -210,35 +232,36 @@ const CreateClient = (props) => {
                             <input
                                 className='name'
                                 type="text"
-                                required
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
                             />
+                            <span className='errMessage'>{nameError}</span>
                         </div>
                         <div className='label-input-group'>
                             <label>Company <span className='must-fill'>*</span></label>
                             <input
                                 className='company'
                                 type="text"
-                                required
                                 name="company"
                                 value={formData.company}
                                 onChange={handleChange}
                             />
+                            <span className='errMessage'>{companyError}</span>
                         </div>
                         <div className='label-input-group'>
                             <label>Hobby <span className='must-fill'>*</span></label>
                             <input
                                 className='hobby'
                                 type="text"
-                                required
                                 name="hobby"
                                 value={formData.hobby}
                                 onChange={handleChange}
                             />
+                            <span className='errMessage'>{hobbyError}</span>
                         </div>
                     </div>
+
                     {dateNoteRows.map((row, index) => (
                         <div key={index} className='form-row2'>
                             <div className='label-input-group'>
@@ -357,7 +380,7 @@ const CreateClient = (props) => {
                                     validateEmail(e.target.value);
                                 }}
                             />
-                            <span className='emailErr'>{emailError}</span>
+                            <span className='errMessage'>{emailError}</span>
                         </div>
                     </div>
 
