@@ -7,11 +7,20 @@ function ExportButton() {
     async function exportToSpreadsheet() {
         try {
             const records = await getRecords();
-
+    
             const filteredRecords = records.map(record => 
                 Object.keys(record).reduce((acc, key) => {
                     if (key !== '__v' && key !== '_id') { 
-                        if (key === 'importantDate' || key === 'birthday') {
+                        if (key === 'importantDatesAndNotes') {
+                            // Format importantDatesAndNotes into "YYYY-MM-DD: note" with new lines
+                            acc[key] = record[key]?.map(entry => {
+                                const date = entry.importantDate 
+                                    ? new Date(entry.importantDate).toISOString().split('T')[0] 
+                                    : "N/A";
+                                const note = entry.note || "N/A";
+                                return `${date}: ${note}`;
+                            }).join('\n') || "N/A";
+                        } else if (key === 'birthday') {
                             const date = new Date(record[key]);
                             acc[key] = !isNaN(date) ? date.toISOString().split('T')[0] : "N/A"; // Format as yyyy-MM-DD
                         } else if (key === 'createdAt' || key === 'updatedAt') {
@@ -31,11 +40,11 @@ function ExportButton() {
                     return acc;
                 }, {})
             );
-
+    
             const worksheet = XLSX.utils.json_to_sheet(filteredRecords); 
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, 'Filtered Records');
-
+    
             const headers = Object.keys(filteredRecords[0] || {});
             headers.forEach((header, index) => {
                 const cellAddress = XLSX.utils.encode_cell({ r: 0, c: index }); // Header cell address
@@ -43,7 +52,7 @@ function ExportButton() {
                     worksheet[cellAddress].v = header.charAt(0).toUpperCase() + header.slice(1); // Capitalize first letter of header
                 }
             });
-
+    
             const colWidths = Object.keys(filteredRecords[0] || {}).map(key => {
                 const maxLength = Math.max(
                     key.length, // Header length
@@ -52,14 +61,14 @@ function ExportButton() {
                 return { wch: maxLength + 2 }; // Add padding
             });
             worksheet['!cols'] = colWidths;
-            
-
+    
             // Generate the Excel file and trigger the download
             XLSX.writeFile(workbook, 'Filtered_Records.xlsx');
         } catch (error) {
             console.error('Error exporting data:', error);
         }
     }
+    
 
     return (
         <button onClick={exportToSpreadsheet} className="nav-button">
