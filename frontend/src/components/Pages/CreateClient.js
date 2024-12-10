@@ -31,6 +31,10 @@ const CreateClient = (props) => {
     const [hobbyError, setHobbyError] = useState('');
 
     const validateEmail = (email) => {
+        if (email.trim() === '') {
+            setEmailError(''); // No error if the field is empty
+            return true;
+        }
         if (validator.isEmail(email)) {
             setEmailError('');
             return true;

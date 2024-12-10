@@ -97,6 +97,10 @@ const EditExistingClient = () => {
     };
     
     const validateEmail = (email) => {
+        if (email.trim() === '') {
+            setEmailError(''); // No error if the field is empty
+            return true;
+        }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (emailRegex.test(email)) {
             setEmailError('');
@@ -132,7 +136,6 @@ const EditExistingClient = () => {
         return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
     };
 
-    // removes all fields
     const resetFields = () => {
         setName(''); 
         setHobby('');
