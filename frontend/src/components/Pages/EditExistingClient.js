@@ -32,6 +32,7 @@ const EditExistingClient = () => {
     const [companyError, setCompanyError] = useState('');
     const [hobbyError, setHobbyError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
 
     useEffect(() => {
         if (location.state?.selectedRow) {
@@ -95,6 +96,18 @@ const EditExistingClient = () => {
             return false;
         }
     };
+
+    const validatePhoneNumber = (phone) => {
+        if (phone.length !== 0) {
+            const cleanedPhoneNumber = phone.replace(/\D/g, '');
+            if (cleanedPhoneNumber.length !== 10) {
+                setPhoneError('Correct format: 999-999-9999.');
+                return false;
+            }
+        }
+        setPhoneError('');
+        return true;
+    };
     
     const validateEmail = (email) => {
         if (email.trim() === '') {
@@ -124,16 +137,9 @@ const EditExistingClient = () => {
         const isCompanyValid = validateCompany(company);
         const isHobbyValid = validateHobby(hobby);
         const isEmailValid = validateEmail(email);
+        const isPhoneValid = validatePhoneNumber(phoneNumber);
     
-        if (phoneNumber.length !== 0) {
-            const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
-            if (cleanedPhoneNumber.length !== 10) {
-                alert('Phone number must be either empty or exactly in the format "999-999-9999".');
-                return false;
-            }
-        }
-    
-        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
+        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid && isPhoneValid;
     };
 
     const resetFields = () => {
@@ -426,13 +432,14 @@ const EditExistingClient = () => {
                                 type="text"
                                 value={formatPhoneNumber(phoneNumber)} 
                                 onChange={(e) => {
-                                    const formattedValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+                                    const formattedValue = e.target.value.replace(/\D/g, ''); 
                                     if (formattedValue.length <= 10) {
-                                        setPhoneNumber(formattedValue); 
+                                        setPhoneNumber(formattedValue);
+                                        validatePhoneNumber(formattedValue);
                                     }
                                 }}
-                                
                             />
+                            <span className='error-message'>{phoneError}</span>
                         </div>
                         <div className='label-input-group'>
                             <label>Email</label>

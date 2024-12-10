@@ -29,20 +29,7 @@ const CreateClient = (props) => {
     const [nameError, setNameError] = useState('');
     const [companyError, setCompanyError] = useState('');
     const [hobbyError, setHobbyError] = useState('');
-
-    const validateEmail = (email) => {
-        if (email.trim() === '') {
-            setEmailError(''); // No error if the field is empty
-            return true;
-        }
-        if (validator.isEmail(email)) {
-            setEmailError('');
-            return true;
-        } else {
-            setEmailError('Enter a valid Email');
-            return false;
-        }
-    };    
+    const [phoneError, setPhoneError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -69,8 +56,9 @@ const CreateClient = (props) => {
         const isCompanyValid = validateCompany(formData.company);
         const isHobbyValid = validateHobby(formData.hobby);
         const isEmailValid = validateEmail(formData.email);
+        const isPhoneValid = validatePhoneNumber(formData.phoneNumber);
     
-        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
+        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid && isPhoneValid;
     };
 
     const validateName = (name) => {
@@ -99,6 +87,32 @@ const CreateClient = (props) => {
             return true;
         } else {
             setHobbyError('Hobby is required');
+            return false;
+        }
+    };  
+    
+    const validatePhoneNumber = (phone) => {
+        if (phone.length !== 0) {
+            const cleanedPhoneNumber = phone.replace(/\D/g, ''); // Remove non-numeric characters
+            if (cleanedPhoneNumber.length !== 10) {
+                setPhoneError('Correct format: 999-999-9999.');
+                return false;
+            }
+        }
+        setPhoneError('');
+        return true;
+    };
+
+    const validateEmail = (email) => {
+        if (email.trim() === '') {
+            setEmailError(''); // No error if the field is empty
+            return true;
+        }
+        if (validator.isEmail(email)) {
+            setEmailError('');
+            return true;
+        } else {
+            setEmailError('Enter a valid Email');
             return false;
         }
     };    
@@ -360,16 +374,17 @@ const CreateClient = (props) => {
                                 value={formatPhoneNumber(formData.phoneNumber)}
                                 onChange={(e) => {
                                     const formattedValue = e.target.value.replace(/[^0-9()-]/g, '');
-                                    // Limit to 12 characters
                                     if (formattedValue.length <= 12) {
                                         setFormData({ ...formData, phoneNumber: formattedValue });
                                         localStorage.setItem(
                                             'createClientFormData',
                                             JSON.stringify({ ...formData, phoneNumber: formattedValue })
                                         );
+                                        validatePhoneNumber(formattedValue); 
                                     }
                                 }}
                             />
+                            <span className='errMessage'>{phoneError}</span>
                         </div>
 
                         <div className='label-input-group'>
