@@ -28,7 +28,10 @@ const EditExistingClient = () => {
     const [additionalNote, setAdditionalNote] = useState('');
     const [importantDatesAndNotes, setImportantDatesAndNotes] = useState([]);
 
-
+    const [nameError, setNameError] = useState('');
+    const [companyError, setCompanyError] = useState('');
+    const [hobbyError, setHobbyError] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     useEffect(() => {
         if (location.state?.selectedRow) {
@@ -63,6 +66,47 @@ const EditExistingClient = () => {
         }
     }, [location.state, navigate]);
 
+    const validateName = (name) => {
+        if (name.trim()) {
+            setNameError('');
+            return true;
+        } else {
+            setNameError('Name is required.');
+            return false;
+        }
+    };
+    
+    const validateCompany = (company) => {
+        if (company.trim()) {
+            setCompanyError('');
+            return true;
+        } else {
+            setCompanyError('Company is required.');
+            return false;
+        }
+    };
+    
+    const validateHobby = (hobby) => {
+        if (hobby.trim()) {
+            setHobbyError('');
+            return true;
+        } else {
+            setHobbyError('Hobby is required.');
+            return false;
+        }
+    };
+    
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(email)) {
+            setEmailError('');
+            return true;
+        } else {
+            setEmailError('Enter a valid Email.');
+            return false;
+        }
+    };
+
     const formatPhoneNumber = (number) => {
         if (!number) return '';
         const cleaned = String(number).replace(/\D/g, ''); // Convert to string before replacing
@@ -72,18 +116,21 @@ const EditExistingClient = () => {
     };
     
     const validateForm = () => {
+        const isNameValid = validateName(name);
+        const isCompanyValid = validateCompany(company);
+        const isHobbyValid = validateHobby(hobby);
+        const isEmailValid = validateEmail(email);
+    
         if (phoneNumber.length !== 0) {
-            const cleanedPhoneNumber = phoneNumber.replace(/\D/g, ''); 
+            const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
             if (cleanedPhoneNumber.length !== 10) {
                 alert('Phone number must be either empty or exactly in the format "999-999-9999".');
                 return false;
             }
         }
-
-        
-        return true;
-    };
     
+        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
+    };
 
     // removes all fields
     const resetFields = () => {
@@ -256,30 +303,39 @@ const EditExistingClient = () => {
                             <input
                                 className='name'
                                 type="text"
-                                required
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                    validateName(e.target.value);
+                                }}
                             />
+                            <span className='error-message'>{nameError}</span>
                         </div>
                         <div className='label-input-group'>
                             <label>Company <span className='must-fill'>*</span></label>
                             <input
                                 className='company'
                                 type="text"
-                                required
                                 value={company}
-                                onChange={(e) => setCompany(e.target.value)}
+                                onChange={(e) => {
+                                    setCompany(e.target.value);
+                                    validateCompany(e.target.value);
+                                }}
                             />
+                            <span className='error-message'>{companyError}</span>
                         </div>
                         <div className='label-input-group'>
                             <label>Hobby <span className='must-fill'>*</span></label>
                             <input
                                 className='hobby'
                                 type="text"
-                                required
                                 value={hobby}
-                                onChange={(e) => setHobby(e.target.value)}
+                                onChange={(e) => {
+                                    setHobby(e.target.value);
+                                    validateHobby(e.target.value);
+                                }}
                             />
+                            <span className='error-message'>{hobbyError}</span>
                         </div>
                     </div>
                     {importantDatesAndNotes.map((row, index) => (
@@ -381,8 +437,12 @@ const EditExistingClient = () => {
                                 className='email'
                                 type="text"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    validateEmail(e.target.value);
+                                }}
                             />
+                            <span className='error-message'>{emailError}</span>
                         </div>
                     </div>
 

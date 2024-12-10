@@ -28,6 +28,11 @@
     color: #9C9C9C;
 }
 
+.error-message {
+    color: red;
+    margin-top: 3px;
+}
+
 .edit-client-page-body {
     display: flex;
     flex-direction: column;
