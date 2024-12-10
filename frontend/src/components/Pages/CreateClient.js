@@ -4,6 +4,8 @@ import { withFuncProps } from "../withFuncProps";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { createRecord } from '../../connector';
+import validator from 'validator';
+
 
 const CreateClient = (props) => {
     // Initialize formData state from localStorage
@@ -22,6 +24,17 @@ const CreateClient = (props) => {
         email: savedData.email || '',
         additionalNote: savedData.additionalNote || ''
     });
+    const [emailError, setEmailError] = useState('');
+
+    const validateEmail = (email) => {
+        if (validator.isEmail(email)) {
+            setEmailError('');
+            return true;
+        } else {
+            setEmailError('Enter a valid Email');
+            return false;
+        }
+    };    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,24 +53,29 @@ const CreateClient = (props) => {
     };
 
     const validateForm = () => {
-        const requiredFields = ['name', 'company', 'hobby'];
+        const requiredFields = ['name', 'company', 'hobby', 'email'];
         for (const field of requiredFields) {
             if (!formData[field].trim()) {
-                alert(`Please fill out the <${field}> field.`);
+                alert(`Please fill out the ${field} field.`);
                 return false;
             }
         }
-
+    
+        if (!validateEmail(formData.email)) {
+            return false;
+        }
+    
         const { phoneNumber } = formData; 
         if (phoneNumber.length !== 0) {
             const cleanedPhoneNumber = phoneNumber.replace(/[^0-9]/g, ''); 
             if (cleanedPhoneNumber.length !== 10) {
                 alert('Phone number must be either empty or exactly in the format "999-999-9999".');
-                return;
+                return false;
             }
         }
         return true;
     };
+    
 
     const formatPhoneNumber = (number) => {
         if (!number) return ''; 
@@ -334,8 +352,12 @@ const CreateClient = (props) => {
                                 type="text"
                                 name="email"
                                 value={formData.email}
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    validateEmail(e.target.value);
+                                }}
                             />
+                            <span className='emailErr'>{emailError}</span>
                         </div>
                     </div>
 
