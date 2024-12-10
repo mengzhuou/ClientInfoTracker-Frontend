@@ -19,3 +19,18 @@
 .ag-root-wrapper.ag-layout-normal {
     height: 88vh !important;
 }
+
+.norecord-message {
+    position: absolute;
+    color: #ff0000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-wrap: auto;
+    margin-left: 10%;
+}

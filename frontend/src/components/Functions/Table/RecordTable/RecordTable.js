@@ -117,8 +117,8 @@ class RecordTable extends Component {
         return (
             <div className="body">
                 <div className="RecordPageContainer">
-                    {loading && <div>Loading...</div>}
-                    {error && <div>Error fetching records. Retrying...</div>}
+                    {loading && <div className="norecord-message">Loading...</div>}
+                    {error && <div className="norecord-message">Error fetching records. Please refresh the page.</div>}
                     {!loading && !error && (
                         <AgGridTable
                             rowData={records}
