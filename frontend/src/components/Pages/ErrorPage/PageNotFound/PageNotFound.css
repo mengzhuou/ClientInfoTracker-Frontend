@@ -1,0 +1,24 @@
+.page-not-found-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.page-not-found-title {
+    font-size: 4rem;
+    color: #ff6347;
+}
+
+.page-not-found-message {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.page-not-found-link {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.page-not-found-link:hover {
+    text-decoration: underline;
+}
