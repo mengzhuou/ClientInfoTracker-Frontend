@@ -367,7 +367,7 @@ const EditExistingClient = () => {
                         </div>
                     )}
 
-                    {importantDatesAndNotes.map((row, index) => (
+                    {(isArchive ? importantDatesAndNotes.slice(0, 1) : importantDatesAndNotes).map((row, index) => (
                         <div key={index} className="form-row2">
                             <div className="label-input-group">
                                 <label>Important Date</label>
