@@ -3,8 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-import { updateRecord, deleteRecord, deleteDraft, createRecord } from '../../connector';
 import DeletePopup from '../Functions/PopupModals/DeletePopup/DeletePopup';
+import { updateRecord, deleteRecord, deleteDraft, createRecord } from '../../connector';
+import { TbArchiveOff } from "react-icons/tb"; 
+import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditExistingClient = () => {
     // allows me to push users back to the home page after submission
@@ -33,6 +36,9 @@ const EditExistingClient = () => {
     const [hobbyError, setHobbyError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
+    
+    const [isArchive, setIsArchive] = useState(true);
+
 
     useEffect(() => {
         if (location.state?.selectedRow) {
@@ -294,6 +300,10 @@ const EditExistingClient = () => {
         }
     };
 
+    const toggleArchive = () => {
+        setIsArchive((prevState) => !prevState);
+    };    
+
 
     return (
         <div className='edit-client-page-body'>
@@ -347,6 +357,16 @@ const EditExistingClient = () => {
                             <span className='error-message'>{hobbyError}</span>
                         </div>
                     </div>
+                    {isArchive ? (
+                        <div className="icon-container" onClick={toggleArchive}>
+                            <TbArchiveOff className="important-date-icon-archiveOn"/>
+                        </div>
+                    ) : (
+                        <div className="icon-container" onClick={toggleArchive}>
+                            <FontAwesomeIcon icon={faBoxArchive} className="important-date-icon-archiveOff"/>
+                        </div>
+                    )}
+
                     {importantDatesAndNotes.map((row, index) => (
                         <div key={index} className="form-row2">
                             <div className="label-input-group">

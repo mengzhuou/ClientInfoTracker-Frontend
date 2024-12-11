@@ -78,6 +78,32 @@
     margin-right: 80px;
 }
 
+.important-date-icon-archiveOn {
+    font-size: 25px;
+    color: #34951f;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.important-date-icon-archiveOn:hover {
+    transform: scale(1.2);
+    color: #2b7a19;
+}
+
+.important-date-icon-archiveOff {
+    margin-left: 1px;
+    margin-top: 3px;
+    font-size: 20px;
+    color: rgb(246, 170, 170);
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.important-date-icon-archiveOff:hover {
+    transform: scale(1.2);
+    color: rgb(245, 131, 131);
+}
+
 @media (max-width: 768px) {
     .edit-save-draft {
         margin-right: 30px;
