@@ -367,41 +367,55 @@ const EditExistingClient = () => {
                         </div>
                     )}
 
-                    {(isArchive ? importantDatesAndNotes.slice(0, 1) : importantDatesAndNotes).map((row, index) => (
-                        <div key={index} className="form-row2">
-                            <div className="label-input-group">
-                                <label>Important Date</label>
-                                <DatePicker
-                                    className="date-important"
-                                    dateFormat="yyyy/MM/dd"
-                                    selected={row.importantDate}
-                                    onChange={(date) => handleRowChange(index, "importantDate", date)}
-                                />
-                            </div>
-                            <div className="label-input-group">
-                                <label>Note</label>
-                                <textarea
-                                    className="note"
-                                    value={row.note}
-                                    onChange={(e) => handleRowChange(index, "note", e.target.value)}
-                                />
-                            </div>
-                            <div className="note-buttons">
-                                <button type="button" className="add-button" onClick={handleAddRow}>
-                                    +
-                                </button>
-                                {importantDatesAndNotes.length > 1 && (
-                                    <button
-                                        type="button"
-                                        className="remove-button"
-                                        onClick={() => handleRemoveRow(index)}
-                                    >
-                                        <span className="minus">-</span>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                    {(isArchive ? importantDatesAndNotes.slice(0, 1) : importantDatesAndNotes).map((row, index) => {
+                        const isPastEvent = row.importantDate && new Date(row.importantDate) < new Date();
+                        const isDivider =
+                            index > 0 &&
+                            importantDatesAndNotes[index - 1].importantDate &&
+                            new Date(importantDatesAndNotes[index - 1].importantDate) < new Date() &&
+                            row.importantDate &&
+                            new Date(row.importantDate) >= new Date();
+
+                        return (
+                            <React.Fragment key={index}>
+                                {isDivider && <hr className="divider-line" />}
+                                <div className="form-row2">
+                                    <div className="label-input-group">
+                                        <label>Important Date</label>
+                                        <DatePicker
+                                            className="date-important"
+                                            dateFormat="yyyy/MM/dd"
+                                            selected={row.importantDate}
+                                            onChange={(date) => handleRowChange(index, "importantDate", date)}
+                                        />
+                                    </div>
+                                    <div className="label-input-group">
+                                        <label>Note</label>
+                                        <textarea
+                                            className="note"
+                                            value={row.note}
+                                            onChange={(e) => handleRowChange(index, "note", e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="note-buttons">
+                                        <button type="button" className="add-button" onClick={handleAddRow}>
+                                            +
+                                        </button>
+                                        {importantDatesAndNotes.length > 1 && (
+                                            <button
+                                                type="button"
+                                                className="remove-button"
+                                                onClick={() => handleRemoveRow(index)}
+                                            >
+                                                <span className="minus">-</span>
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        );
+                    })}
+
 
                     <div className='form-row3'>
                         <div className='label-input-group'>

@@ -104,6 +104,13 @@
     color: rgb(245, 131, 131);
 }
 
+.divider-line {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 1rem 0;
+}
+
 @media (max-width: 768px) {
     .edit-save-draft {
         margin-right: 30px;
