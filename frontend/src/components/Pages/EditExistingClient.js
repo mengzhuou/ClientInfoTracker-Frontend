@@ -5,8 +5,7 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import DeletePopup from '../Functions/PopupModals/DeletePopup/DeletePopup';
 import { updateRecord, deleteRecord, deleteDraft, createRecord } from '../../connector';
-import { TbArchiveOff } from "react-icons/tb"; 
-import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditExistingClient = () => {
@@ -359,11 +358,11 @@ const EditExistingClient = () => {
                     </div>
                     {isArchive ? (
                         <div className="icon-container" onClick={toggleArchive}>
-                            <TbArchiveOff className="important-date-icon-archiveOn"/>
+                            <FontAwesomeIcon icon={faCaretUp} className="important-date-icon-archiveOn"/>
                         </div>
                     ) : (
                         <div className="icon-container" onClick={toggleArchive}>
-                            <FontAwesomeIcon icon={faBoxArchive} className="important-date-icon-archiveOff"/>
+                            <FontAwesomeIcon icon={faCaretDown} className="important-date-icon-archiveOff"/>
                         </div>
                     )}
 
