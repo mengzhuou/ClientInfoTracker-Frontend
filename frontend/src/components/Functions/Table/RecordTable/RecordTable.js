@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import './RecordTable.css';
 import AgGridTable from '../AgGridTable/AgGridTable.js';
 import { getRecords } from '../../../../connector.js';
+import ClientSearch from "../ClientSearch";
+
 
 class RecordTable extends Component {
     constructor(props) {
@@ -20,6 +22,7 @@ class RecordTable extends Component {
             records: null, // To store the fetched records
             loading: true, // Show loading state
             error: false, 
+            searchTerm: '',
         };
         this.gridApi = null;
     }
@@ -111,17 +114,36 @@ class RecordTable extends Component {
         }
     };
 
+    handleSearch = (searchTerm) => {
+        this.setState({ searchTerm });
+    };
+
+    getFilteredData = () => {
+        const { searchTerm, records } = this.state;
+        if (!searchTerm) return records;
+        return records.filter(item =>
+            (item.company || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.type || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.jobTitle || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    };
     render() {
-        const { loading, error, records } = this.state;
+        const { loading, error } = this.state;
+
+        const filteredData = this.getFilteredData();
 
         return (
             <div className="body">
+                <div>
+                    <ClientSearch onSearch={this.handleSearch} />
+                </div>
                 <div className="RecordPageContainer">
                     {loading && <div className="norecord-message">Loading...</div>}
                     {error && <div className="norecord-message">Error fetching records. Please refresh the page.</div>}
                     {!loading && !error && (
                         <AgGridTable
-                            rowData={records}
+                            rowData={filteredData}
                             columnDefs={this.state.columnDefs}
                             defaultColDef={this.state.defaultColDef}
                             domLayout={this.state.domLayout}
