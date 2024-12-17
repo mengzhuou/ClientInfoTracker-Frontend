@@ -254,15 +254,20 @@ const CreateClient = (props) => {
                             <span className='errMessage'>{companyError}</span>
                         </div>
                         <div className='label-input-group'>
-                            <label>Hobby <span className='must-fill'>*</span></label>
-                            <textarea
-                                className='hobby'
-                                type="text"
-                                name="hobby"
-                                value={formData.hobby}
-                                onChange={handleChange}
+                            <label>Phone Number</label>
+                            <input
+                                className='phone-number'
+                                name="phoneNumber"
+                                value={formatPhoneNumber(formData.phoneNumber)}
+                                onChange={(e) => {
+                                    const formattedValue = e.target.value.replace(/[^0-9()-]/g, '');
+                                    setFormData({ ...formData, phoneNumber: formattedValue });
+                                    localStorage.setItem(
+                                        'createClientFormData',
+                                        JSON.stringify({ ...formData, phoneNumber: formattedValue })
+                                    );
+                                }}
                             />
-                            <span className='errMessage'>{hobbyError}</span>
                         </div>
                     </div>
 
@@ -306,17 +311,7 @@ const CreateClient = (props) => {
                             </div>
                         </div>
                     ))}
-                <div className='form-row3'>
-                        <div className='label-input-group'>
-                            <label>Family Situation</label>
-                            <textarea
-                                className='family-situation'
-                                type="text"
-                                name="familySituation"
-                                value={formData.familySituation}
-                                onChange={handleChange}
-                            />
-                        </div>
+                    <div className='form-row3'>
                         <div className='label-input-group'>
                             <label>Birthday</label>
                             <DatePicker
@@ -330,45 +325,6 @@ const CreateClient = (props) => {
                             />
                         </div>
                         <div className='label-input-group'>
-                            <label>Reason of Knowing</label>
-                            <textarea
-                                className='reason-of-knowing'
-                                type="text"
-                                name="reasonOfKnowing"
-                                value={formData.reasonOfKnowing}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </div>
-
-                    <div className='form-row4'>
-                        <div className='label-input-group'>
-                            <label>Position</label>
-                            <input
-                                className='position'
-                                name="position"
-                                value={formData.position}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className='label-input-group'>
-                            <label>Phone Number</label>
-                            <input
-                                className='phone-number'
-                                name="phoneNumber"
-                                value={formatPhoneNumber(formData.phoneNumber)}
-                                onChange={(e) => {
-                                    const formattedValue = e.target.value.replace(/[^0-9()-]/g, '');
-                                    setFormData({ ...formData, phoneNumber: formattedValue });
-                                    localStorage.setItem(
-                                        'createClientFormData',
-                                        JSON.stringify({ ...formData, phoneNumber: formattedValue })
-                                    );
-                                }}
-                            />
-                        </div>
-
-                        <div className='label-input-group'>
                             <label>Email</label>
                             <input
                                 className='email'
@@ -381,6 +337,49 @@ const CreateClient = (props) => {
                                 }}
                             />
                             <span className='errMessage'>{emailError}</span>
+                        </div>
+                        <div className='label-input-group'>
+                            <label>Position</label>
+                            <input
+                                className='position'
+                                name="position"
+                                value={formData.position}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+
+                    <div className='form-row4'>
+                        <div className='label-input-group'>
+                            <label>Family Situation</label>
+                            <textarea
+                                className='family-situation'
+                                type="text"
+                                name="familySituation"
+                                value={formData.familySituation}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className='label-input-group'>
+                            <label>Reason of Knowing</label>
+                            <textarea
+                                className='reason-of-knowing'
+                                type="text"
+                                name="reasonOfKnowing"
+                                value={formData.reasonOfKnowing}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className='label-input-group'>
+                            <label>Hobby <span className='must-fill'>*</span></label>
+                            <textarea
+                                className='hobby'
+                                type="text"
+                                name="hobby"
+                                value={formData.hobby}
+                                onChange={handleChange}
+                            />
+                            <span className='errMessage'>{hobbyError}</span>
                         </div>
                     </div>
 

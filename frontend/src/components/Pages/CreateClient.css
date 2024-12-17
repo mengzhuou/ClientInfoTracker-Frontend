@@ -225,6 +225,7 @@ label {
 .family-situation {
     padding: 10px;
     margin-right: 20px;
+    
 }
 
 .family-situation::placeholder {
@@ -383,4 +384,55 @@ label {
         margin-left: 1%;
     }
 
+}
+
+@media (max-width: 680px) {
+    .label-input-group {
+        margin-left: 55px;
+        width: 87%;
+    }
+
+    .add-button {
+        margin-right: 0px;
+        margin-top: 23px;
+    }
+
+    .remove-button {
+        margin-left:0px;
+        margin-top: -30px;
+    }
+
+    .note-buttons {
+        display: flex;
+        flex-direction: column;
+        gap:50px
+    }
+
+    .note {
+        margin-right: 5px;
+    }
+
+    .birthday {
+        width: 100% !important;
+        float: left;
+    }
+
+    .family-situation, .reason-of-knowing, .hobby {
+        padding: 15px;
+        width: fit-content;
+        height: fit-content;
+        min-height: 50px;
+        max-height: 150px;
+        min-width: 300px;
+        max-width: 600px;
+        field-sizing: content;
+        border-color: #938f8f;
+        width: 93% !important;
+        float: left;
+    }
+
+    .date-important {
+        width: 120% !important;
+        float: left;
+    }
 }
