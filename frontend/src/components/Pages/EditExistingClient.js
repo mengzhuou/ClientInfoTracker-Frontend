@@ -330,7 +330,7 @@ const EditExistingClient = () => {
                         </div>
                         <div className='label-input-group'>
                             <label>Hobby <span className='must-fill'>*</span></label>
-                            <input
+                            <textarea
                                 className='hobby'
                                 type="text"
                                 value={hobby}
@@ -431,7 +431,7 @@ const EditExistingClient = () => {
                     <div className='form-row3'>
                         <div className='label-input-group'>
                             <label>Family Situation</label>
-                            <input
+                            <textarea
                                 className='family-situation'
                                 type="text"
                                 value={familySituation}
@@ -451,7 +451,7 @@ const EditExistingClient = () => {
                         </div>
                         <div className='label-input-group'>
                             <label>Reason of Knowing</label>
-                            <input
+                            <textarea
                                 className='reason-of-knowing'
                                 type="text"
                                 value={reasonOfKnowing}
