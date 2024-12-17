@@ -116,7 +116,7 @@
     border-style: none none solid none;
     border-color: #000000;
     border-width: 0 0 2px 0;
-    background-color: rgb(122, 122, 122);
+    background-color: #CB997E;
     transition-duration: 0.4s;
     &:hover {
         background-color: rgb(61, 61, 61);

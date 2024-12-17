@@ -3,7 +3,7 @@ import React from 'react';
 import * as XLSX from 'xlsx';
 import { getRecords } from '../../../connector.js';
 
-function ExportButton() {
+function ExportButton({ className }) {
     async function exportToSpreadsheet() {
         try {
             const records = await getRecords();
@@ -71,7 +71,7 @@ function ExportButton() {
     
 
     return (
-        <button onClick={exportToSpreadsheet} className="nav-button">
+        <button onClick={exportToSpreadsheet} className={`${className || ''}`}>
             Export
         </button>
     );

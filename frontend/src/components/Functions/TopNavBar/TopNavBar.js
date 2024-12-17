@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withFuncProps } from "../../withFuncProps";
-import NavButton from "../../Button/NavButton/NavButton"
-import ExportButton from "../../Button/ExportButton/ExportButton";  
+import ExportButton from "../../Button/ExportButton/ExportButton"; 
 
 import './TopNavBar.css';
 
@@ -57,32 +56,53 @@ class TopNavBar extends Component {
 
     render() {
         if (window.location.pathname === "/") {
-            return (
-                <div className="navBar">
-                </div>
-            );
+            return <div className="navBar"></div>;
         }
         return (
             <div className="navBar">
                 <div className="navBar-left">
-                    <NavButton className="navTitle" path="/MainPage" text="Zwj Info Tracker" />
+                    <button className="navTitle" onClick={() => this.props.navigate('/MainPage')}>
+                        Zwj Info Tracker
+                    </button>
                 </div>
 
                 <div className="navBar-right">
                     <ul className="nav-list">
-                        <li><NavButton className="nav-button" path="/draft" text="Draft" /></li>
-                        <li><NavButton className="nav-button" path="/create-client" text="Create Client" /></li>
-                        <li><ExportButton /></li>
+                        <li>
+                            <button className="nav-button" onClick={() => this.props.navigate('/draft')}>
+                                Draft
+                            </button>
+                        </li>
+                        <li>
+                            <button className="nav-button" onClick={() => this.props.navigate('/create-client')}>
+                                Create Client
+                            </button>
+                        </li>
+                        <li><ExportButton className="nav-button"/></li>
                     </ul>
                     <div ref={this.iconRef} className="dropdownIcon" onClick={this.toggleDropdown}>
                         &#9776;
                     </div>
                     {this.state.isDroppedDown ? (
-                    <ul ref={this.menuRef} className={`dropdown-container ${this.state.animationClass}`}>
-                        <li><NavButton className="dropdown-content" path="/draft" text="Draft" /></li>
-                        <li><NavButton className="dropdown-content" path="/create-client" text="Create Client" /></li>
-                        <li><ExportButton /></li>
-                    </ul>
+                        <ul ref={this.menuRef} className={`dropdown-container ${this.state.animationClass}`}>
+                            <li>
+                                <button className="dropdown-content" onClick={() => {
+                                    this.props.navigate('/draft');
+                                    this.toggleDropdown();
+                                }}>
+                                    Draft
+                                </button>
+                            </li>
+                            <li>
+                                <button className="dropdown-content" onClick={() => {
+                                    this.props.navigate('/create-client');
+                                    this.toggleDropdown();
+                                }}>
+                                    Create Client
+                                </button>
+                            </li>
+                            <li><ExportButton className="dropdown-content"/></li>
+                        </ul>
                     ) : null}
                 </div>
             </div>
