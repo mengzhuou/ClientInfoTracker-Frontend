@@ -36,6 +36,7 @@ const EditExistingClient = () => {
     const [emailError, setEmailError] = useState('');
 
     const [isArchive, setIsArchive] = useState(true);
+    const [isOnlyOneImportantEventRecord, setIsOnlyOneImportantEventRecord] = useState(false);
 
 
     useEffect(() => {
@@ -56,7 +57,11 @@ const EditExistingClient = () => {
             setPhoneNumber(row.phoneNumber ? String(row.phoneNumber) : ''); 
             setEmail(row.email || '');
             setAdditionalNote(row.additionalNote || '');
-            // setImportantDatesAndNotes(row.importantDatesAndNotes || []);
+
+            if (row.importantDatesAndNotes.length === 1) {
+                setIsOnlyOneImportantEventRecord(true);
+                setIsArchive(false);
+            }
             setImportantDatesAndNotes(
                 row.importantDatesAndNotes
                     ? row.importantDatesAndNotes.map(item => ({
@@ -355,8 +360,6 @@ const EditExistingClient = () => {
                     {(() => {
                         let eventsToDisplay = importantDatesAndNotes.sort((a, b) => new Date(a.importantDate) - new Date(b.importantDate));
 
-                        console.log("eventsToDisplay: ", eventsToDisplay)
-
                         if (isArchive) {
                             // Find the most recent future event
                             const now = new Date();
@@ -380,7 +383,7 @@ const EditExistingClient = () => {
                             const isPastEvent = row.importantDate && new Date(row.importantDate) < now;
 
                             let isDivider = false;
-                            if (!pastEventsExist && !isPastEvent) {
+                            if (!pastEventsExist && !isPastEvent && !isOnlyOneImportantEventRecord) {
                                 // Display the divider only once, where the first future event starts
                                 isDivider = true;
                                 pastEventsExist = true; // Mark that the divider has been placed
@@ -514,12 +517,12 @@ const EditExistingClient = () => {
                     </div>
 
                     {isPopupOpen && (
-                            <DeletePopup
-                                onClose={cancelDelete} // Handle cancel
-                                onConfirm={confirmDelete} // Handle confirm
-                                message="Delete this record permanently?"
-                            />
-                        )}
+                        <DeletePopup
+                            onClose={cancelDelete} // Handle cancel
+                            onConfirm={confirmDelete} // Handle confirm
+                            message="Delete this record permanently?"
+                        />
+                    )}
                     
                 </form>
             </div>
