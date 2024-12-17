@@ -134,24 +134,24 @@ class RecordTable extends Component {
         const filteredData = this.getFilteredData();
 
         return (
-            <div className="body">
-                <div>
+            <div className="record-body">
+                <div className="record-container">
                     <ClientSearch onSearch={this.handleSearch} />
-                </div>
-                <div className="RecordPageContainer">
-                    {loading && <div className="norecord-message">Loading...</div>}
-                    {error && <div className="norecord-message">Error fetching records. Please refresh the page.</div>}
-                    {!loading && !error && (
-                        <AgGridTable
-                            rowData={filteredData}
-                            columnDefs={this.state.columnDefs}
-                            defaultColDef={this.state.defaultColDef}
-                            domLayout={this.state.domLayout}
-                            suppressHorizontalScroll={this.state.suppressHorizontalScroll}
-                            onGridReady={this.onGridReady}
-                            onSelectionChanged={this.onSelectionChanged}
-                        />
-                    )}
+                    <div className="record-table-section">
+                        {loading && <div className="norecord-message">Loading...</div>}
+                        {error && <div className="norecord-message">Error fetching records. Please refresh the page.</div>}
+                        {!loading && !error && (
+                            <AgGridTable
+                                rowData={filteredData}
+                                columnDefs={this.state.columnDefs}
+                                defaultColDef={this.state.defaultColDef}
+                                domLayout={this.state.domLayout}
+                                suppressHorizontalScroll={this.state.suppressHorizontalScroll}
+                                onGridReady={this.onGridReady}
+                                onSelectionChanged={this.onSelectionChanged}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         );

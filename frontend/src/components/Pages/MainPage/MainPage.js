@@ -30,13 +30,9 @@ class MainPage extends Component {
 
         return (
             <div className="main-page-body">
-                <div className="main-page-container">
-                    <div className="record-table-section">
-                        <RecordTable
-                            onRowSelected={this.handleRowSelected} 
-                        />
-                    </div>
-                </div>
+                <RecordTable
+                    onRowSelected={this.handleRowSelected} 
+                />
             </div>
         );
     }
