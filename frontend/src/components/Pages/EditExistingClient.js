@@ -367,7 +367,9 @@ const EditExistingClient = () => {
                     )}
 
                     {(() => {
-                        let eventsToDisplay = importantDatesAndNotes;
+                        let eventsToDisplay = importantDatesAndNotes.sort((a, b) => new Date(a.importantDate) - new Date(b.importantDate));
+
+                        console.log("eventsToDisplay: ", eventsToDisplay)
 
                         if (isArchive) {
                             // Find the most recent future event
@@ -385,17 +387,22 @@ const EditExistingClient = () => {
                             }
                         }
 
+                        let pastEventsExist = false;
+
                         return eventsToDisplay.map((row, index) => {
-                            const isDivider =
-                                index > 0 &&
-                                eventsToDisplay[index - 1].importantDate &&
-                                new Date(eventsToDisplay[index - 1].importantDate) < new Date() &&
-                                row.importantDate &&
-                                new Date(row.importantDate) >= new Date();
+                            const now = new Date();
+                            const isPastEvent = row.importantDate && new Date(row.importantDate) < now;
+
+                            let isDivider = false;
+                            if (!pastEventsExist && !isPastEvent) {
+                                // Display the divider only once, where the first future event starts
+                                isDivider = true;
+                                pastEventsExist = true; // Mark that the divider has been placed
+                            }
 
                             return (
                                 <React.Fragment key={index}>
-                                    {isDivider && <hr className="divider-line" />}
+                                    {isDivider && !isArchive && <hr className="divider-line" />}
                                     <div className="form-row2">
                                         <div className="label-input-group">
                                             <label>Important Date</label>
@@ -432,6 +439,7 @@ const EditExistingClient = () => {
                                 </React.Fragment>
                             );
                         });
+
                     })()}
 
                     <div className='form-row3'>
