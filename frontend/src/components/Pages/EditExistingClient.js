@@ -34,8 +34,7 @@ const EditExistingClient = () => {
     const [companyError, setCompanyError] = useState('');
     const [hobbyError, setHobbyError] = useState('');
     const [emailError, setEmailError] = useState('');
-    const [phoneError, setPhoneError] = useState('');
-    
+
     const [isArchive, setIsArchive] = useState(true);
 
 
@@ -101,18 +100,6 @@ const EditExistingClient = () => {
             return false;
         }
     };
-
-    const validatePhoneNumber = (phone) => {
-        if (phone.length !== 0) {
-            const cleanedPhoneNumber = phone.replace(/\D/g, '');
-            if (cleanedPhoneNumber.length !== 10) {
-                setPhoneError('Correct format: 999-999-9999.');
-                return false;
-            }
-        }
-        setPhoneError('');
-        return true;
-    };
     
     const validateEmail = (email) => {
         if (email.trim() === '') {
@@ -142,9 +129,8 @@ const EditExistingClient = () => {
         const isCompanyValid = validateCompany(company);
         const isHobbyValid = validateHobby(hobby);
         const isEmailValid = validateEmail(email);
-        const isPhoneValid = validatePhoneNumber(phoneNumber);
     
-        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid && isPhoneValid;
+        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
     };
 
     const resetFields = () => {
@@ -492,13 +478,9 @@ const EditExistingClient = () => {
                                 value={formatPhoneNumber(phoneNumber)} 
                                 onChange={(e) => {
                                     const formattedValue = e.target.value.replace(/\D/g, ''); 
-                                    if (formattedValue.length <= 10) {
-                                        setPhoneNumber(formattedValue);
-                                        validatePhoneNumber(formattedValue);
-                                    }
+                                    setPhoneNumber(formattedValue);
                                 }}
                             />
-                            <span className='error-message'>{phoneError}</span>
                         </div>
                         <div className='label-input-group'>
                             <label>Email</label>

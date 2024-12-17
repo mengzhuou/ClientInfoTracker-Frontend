@@ -29,7 +29,6 @@ const CreateClient = (props) => {
     const [nameError, setNameError] = useState('');
     const [companyError, setCompanyError] = useState('');
     const [hobbyError, setHobbyError] = useState('');
-    const [phoneError, setPhoneError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,9 +55,8 @@ const CreateClient = (props) => {
         const isCompanyValid = validateCompany(formData.company);
         const isHobbyValid = validateHobby(formData.hobby);
         const isEmailValid = validateEmail(formData.email);
-        const isPhoneValid = validatePhoneNumber(formData.phoneNumber);
     
-        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid && isPhoneValid;
+        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
     };
 
     const validateName = (name) => {
@@ -90,18 +88,6 @@ const CreateClient = (props) => {
             return false;
         }
     };  
-    
-    const validatePhoneNumber = (phone) => {
-        if (phone.length !== 0) {
-            const cleanedPhoneNumber = phone.replace(/\D/g, ''); // Remove non-numeric characters
-            if (cleanedPhoneNumber.length !== 10) {
-                setPhoneError('Correct format: 999-999-9999.');
-                return false;
-            }
-        }
-        setPhoneError('');
-        return true;
-    };
 
     const validateEmail = (email) => {
         if (email.trim() === '') {
@@ -370,21 +356,16 @@ const CreateClient = (props) => {
                             <input
                                 className='phone-number'
                                 name="phoneNumber"
-                                placeholder="(999)-999-9999"
                                 value={formatPhoneNumber(formData.phoneNumber)}
                                 onChange={(e) => {
                                     const formattedValue = e.target.value.replace(/[^0-9()-]/g, '');
-                                    if (formattedValue.length <= 12) {
-                                        setFormData({ ...formData, phoneNumber: formattedValue });
-                                        localStorage.setItem(
-                                            'createClientFormData',
-                                            JSON.stringify({ ...formData, phoneNumber: formattedValue })
-                                        );
-                                        validatePhoneNumber(formattedValue); 
-                                    }
+                                    setFormData({ ...formData, phoneNumber: formattedValue });
+                                    localStorage.setItem(
+                                        'createClientFormData',
+                                        JSON.stringify({ ...formData, phoneNumber: formattedValue })
+                                    );
                                 }}
                             />
-                            <span className='errMessage'>{phoneError}</span>
                         </div>
 
                         <div className='label-input-group'>
