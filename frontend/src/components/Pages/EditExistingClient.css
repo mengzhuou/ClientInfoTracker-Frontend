@@ -111,6 +111,50 @@
     margin: 1rem 0;
 }
 
+.edit-label-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px; 
+}
+
+.edit-label-input-group input {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.edit-label-input-group label {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.edit-note {
+    padding: 15px;
+    width: fit-content;
+    height: fit-content;
+    min-width: 100px;
+    max-width: 300px;
+    max-height: 150px;
+    field-sizing: content;
+    border-color: #938f8f;
+    border-radius: 5px;
+}
+
+.edit-note::placeholder {
+    text-align: center;
+}
+
+/* Hide scrollbar in Webkit browsers (Chrome, Safari) */
+.edit-note::-webkit-scrollbar {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .edit-save-draft {
         margin-right: 30px;
@@ -118,5 +162,20 @@
     
     .edit-submit {
         margin-right: 30px;
+    }
+
+    .edit-label-input-group {
+        width: 100%;
+    }
+
+    .edit-label-input-group input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 680px) {
+    .edit-label-input-group {
+        margin-left: 55px;
+        width: 87%;
     }
 }

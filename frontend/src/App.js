@@ -15,7 +15,6 @@ const Layout = ({ children }) => {
   // Hide TopNavBar only when rendering PageNotFound
   const is404 = location.pathname !== "/" && !["/MainPage", "/draft", "/create-client", "/edit-existing-client"].includes(location.pathname);
 
-  console.log("children:" , children)
   return (
     <>
       {!is404 && <TopNavBar />}
