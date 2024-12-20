@@ -8,21 +8,19 @@ import validator from 'validator';
 
 
 const CreateClient = (props) => {
-    // Initialize formData state from localStorage
-    const savedData = JSON.parse(localStorage.getItem('createClientFormData')) || {};
     const [formData, setFormData] = useState({
-        name: savedData.name || '',
-        company: savedData.company || '',
-        hobby: savedData.hobby || '',
-        importantDate: savedData.importantDate || '',
-        note: savedData.note || '',
-        familySituation: savedData.familySituation || '',
-        birthday: savedData.birthday || '',
-        reasonOfKnowing: savedData.reasonOfKnowing || '',
-        position: savedData.position || '',
-        phoneNumber: savedData.phoneNumber || '',
-        email: savedData.email || '',
-        additionalNote: savedData.additionalNote || ''
+        name: '',
+        company: '',
+        hobby: '',
+        importantDate: '',
+        note: '',
+        familySituation: '',
+        birthday: '',
+        reasonOfKnowing: '',
+        position: '',
+        phoneNumber: '',
+        email: '',
+        additionalNote: ''
     });
 
     const [emailError, setEmailError] = useState('');
@@ -33,7 +31,6 @@ const CreateClient = (props) => {
         const { name, value } = e.target;
         const updatedData = { ...formData, [name]: value };
         setFormData(updatedData);
-        localStorage.setItem('createClientFormData', JSON.stringify(updatedData));
     
         if (name === 'name') validateName(value);
         if (name === 'company') validateCompany(value);
@@ -44,8 +41,6 @@ const CreateClient = (props) => {
     const handleDateChange = (name, date) => {
         const updatedData = { ...formData, [name]: date };
         setFormData(updatedData);
-        // Save updated data to localStorage
-        localStorage.setItem('createClientFormData', JSON.stringify(updatedData));
     };
 
     const validateForm = () => {
@@ -181,7 +176,6 @@ const CreateClient = (props) => {
             email: '',
             additionalNote: ''
         }); 
-        localStorage.removeItem('createClientFormData');
     };
 
     const [dateNoteRows, setDateNoteRows] = useState([
@@ -249,10 +243,6 @@ const CreateClient = (props) => {
                                 onChange={(e) => {
                                     const formattedValue = e.target.value.replace(/[^0-9()-]/g, '');
                                     setFormData({ ...formData, phoneNumber: formattedValue });
-                                    localStorage.setItem(
-                                        'createClientFormData',
-                                        JSON.stringify({ ...formData, phoneNumber: formattedValue })
-                                    );
                                 }}
                             />
                         </div>
