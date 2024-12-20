@@ -165,21 +165,75 @@
 }
 
 @media (max-width: 768px) {
-    .edit-client-container {
-        padding: 15px;
+    .edit-date-important {
+        width: 90% !important;
+        float: left;
+    }
+    .edit-note {
+        width: 170px !important;
+        height: 50px;
     }
 
-    .edit-save-draft, .edit-submit {
-        margin: 10px 0;
+    .edit-label-input-group {
+        width: 100%;
+    }
+    
+    .edit-client-page-body {
+        width: 100%;
+    }
+    
+    .edit-client-container {
+        height: auto;
+    }
+
+    .edit-label-input-group input {
+        width: 100%;
+    }
+
+    .edit-birthday {
+        width: 90% !important;
+        float: left;
+    }
+
+    .edit-additional-note {
+        min-width: 370px;
     }
 }
 
-@media (max-width: 480px) {
-    .title {
-        font-size: clamp(20px, 4vw, 30px);
+@media (max-width: 680px) {
+    .edit-label-input-group {
+        margin-left: 55px;
+        width: 87%;
     }
 
-    input, textarea {
-        font-size: 0.9rem;
+    .edit-add-button {
+        margin-right: 0px;
+        margin-top: 23px;
+    }
+
+    .edit-remove-button {
+        margin-left:0px;
+        margin-top: -30px;
+    }
+
+    .edit-note {
+        margin-right: 5px;
+    }
+
+    .edit-date-important {
+        width: 120% !important;
+        float: left;
+    }
+
+    .icon-container {
+        margin-left: 60px;
+    }
+
+    .edit-save-draft-button {
+        margin-right: 10px;
+    }
+    
+    .edit-submit-button {
+        margin-right: 10px;
     }
 }
