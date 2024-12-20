@@ -10,11 +10,65 @@ class RecordTable extends Component {
         super(props);
         this.state = {
             columnDefs: [
-                { headerName: "Name", field: "name", sortable: true, flex: 1 },
-                { headerName: "Company", field: "company", sortable: true, flex: 1.5 },
-                // { headerName: "Hobby", field: "hobby", sortable: true, flex: 1 },
-                { headerName: "Important Date", cellRenderer: this.importantDateFormatter, sortable: true, cellStyle: { 'white-space': 'pre' }, flex: 2, wrapText: true, autoHeight: true },
-                // { headerName: "Family", field: "familySituation", sortable: true, flex: 1 }
+                {
+                    headerName: "Name",
+                    field: "name",
+                    sortable: true,
+                    flex: 1,
+                    comparator: (valueA, valueB) => {
+                        if (!valueA) return -1; // Treat null/undefined as smaller
+                        if (!valueB) return 1;
+                        return valueA.localeCompare(valueB);
+                    },
+                },
+                {
+                    headerName: "Company",
+                    field: "company",
+                    sortable: true,
+                    flex: 1.5,
+                    comparator: (valueA, valueB) => {
+                        if (!valueA) return -1; // Treat null/undefined as smaller
+                        if (!valueB) return 1;
+                        return valueA.localeCompare(valueB);
+                    },
+                },
+                {
+                    headerName: "Important Date",
+                    cellRenderer: this.importantDateFormatter,
+                    sortable: true,
+                    cellStyle: { 'white-space': 'pre' },
+                    flex: 2,
+                    wrapText: true,
+                    autoHeight: true,
+                    comparator: (valueA, valueB) => {
+                        // Parse dates and compare
+                        const dateA = valueA ? new Date(valueA).getTime() : 0;
+                        const dateB = valueB ? new Date(valueB).getTime() : 0;
+        
+                        if (isNaN(dateA)) return -1; // Treat invalid dates as smaller
+                        if (isNaN(dateB)) return 1;
+        
+                        return dateA - dateB; // Ascending order
+                    },
+                    valueGetter: (params) => {
+                        // Extract and return the important date to be used for sorting
+                        const date = params.data.importantDatesAndNotes;
+                        if (!date || date.length === 0) return '';
+        
+                        const closestDate = date.reduce((closest, current) => {
+                            const currentImportantDate = new Date(current.importantDate);
+        
+                            if (isNaN(currentImportantDate)) return closest;
+        
+                            const currentDifference = Math.abs(currentImportantDate - new Date());
+                            const closestDifference = Math.abs(new Date(closest.importantDate) - new Date());
+        
+                            return currentDifference < closestDifference ? current : closest;
+                        }, date[0]);
+        
+                        return closestDate.importantDate || null;
+                    },
+                },
             ],
             defaultColDef: { sortable: true, resizable: true },
             domLayout: 'autoHeight',
