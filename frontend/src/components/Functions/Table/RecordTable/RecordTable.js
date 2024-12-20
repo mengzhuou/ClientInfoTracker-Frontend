@@ -65,8 +65,8 @@ class RecordTable extends Component {
         
                             return currentDifference < closestDifference ? current : closest;
                         }, date[0]);
-        
-                        return closestDate.importantDate || null;
+
+                        return closestDate.importantDate || '';
                     },
                 },
             ],
@@ -89,9 +89,18 @@ class RecordTable extends Component {
         const today = new Date();
         const date = params.data.importantDatesAndNotes;
     
-        if (!date || date.length === 0) {
+        if (!date) {
             return '';
         }
+
+        const validDates = date.filter(
+            (entry) => entry.importantDate && !isNaN(new Date(entry.importantDate))
+        );
+    
+        if (validDates.length === 0) {
+            return ''; 
+        }
+
     
         const closestDate = date.reduce((closest, current) => {
             const currentImportantDate = new Date(current.importantDate);
@@ -115,6 +124,7 @@ class RecordTable extends Component {
     
         // Format the closest date and return the corresponding note
         const formattedDate = new Date(closestDate.importantDate).toISOString().split('T')[0];
+
         return `${formattedDate}\n${closestDate.note || ''}`;
     };    
 

@@ -13,7 +13,6 @@ const getRecords = async () => {
 };
 
 const updateRecord = async (recordId, data) => {
-    console.log("Updating Record:", recordId, data);
     const { name, company, importantDatesAndNotes } = data;
 
     // Frontend Validation
