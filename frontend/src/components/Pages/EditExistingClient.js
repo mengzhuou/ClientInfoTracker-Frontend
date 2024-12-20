@@ -298,7 +298,7 @@ const EditExistingClient = () => {
     return (
         <div className='edit-client-page-body'>
             <div className='edit-client-container'>
-                <p className='title'>Edit Existing Client</p>
+                <p className='edit-title'>Edit Existing Client</p>
                 <div className = 'last-update-time-container'>
                     <label className='updateLabel'>Last Updated Time:</label>
                     <label className='updatedAt'>
@@ -336,7 +336,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Phone Number</label>
                             <input
-                                className='phone-number'
+                                className='edit-phone-number'
                                 type="text"
                                 value={formatPhoneNumber(phoneNumber)} 
                                 onChange={(e) => {
@@ -392,7 +392,7 @@ const EditExistingClient = () => {
                                 <React.Fragment key={index}>
                                     {isDivider && !isArchive && <hr className="divider-line" />}
                                     <div className="form-row2">
-                                        <div className="edit-important-date-input-group">
+                                        <div className="edit-label-input-group">
                                             <label>Important Date</label>
                                             <DatePicker
                                                 className="edit-date-important"
@@ -402,7 +402,7 @@ const EditExistingClient = () => {
                                                 onChange={(date) => handleRowChange(index, "importantDate", date)}
                                             />
                                         </div>
-                                        <div className="edit-important-date-note">
+                                        <div className="edit-label-input-group">
                                             <label>Note</label>
                                             <textarea
                                                 className="edit-note"
@@ -432,7 +432,7 @@ const EditExistingClient = () => {
                     })()}
 
                     <div className='form-row3'>
-                        <div className='edit-label-birthday-group'>
+                        <div className='label-input-group'>
                             <label>Birthday</label>
                             <DatePicker
                                 className='birthday'
@@ -471,7 +471,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Family Situation</label>
                             <textarea
-                                className='edit-family-situation'
+                                className='family-situation'
                                 type="text"
                                 value={familySituation}
                                 onChange={(e) => setFamilySituation(e.target.value)}
@@ -480,7 +480,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Reason of Knowing</label>
                             <textarea
-                                className='edit-reason-of-knowing'
+                                className='reason-of-knowing'
                                 type="text"
                                 value={reasonOfKnowing}
                                 onChange={(e) => setReasonOfKnowing(e.target.value)}
@@ -489,7 +489,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Hobby <span className='must-fill'>*</span></label>
                             <textarea
-                                className='edit-hobby'
+                                className='hobby'
                                 type="text"
                                 value={hobby}
                                 onChange={(e) => {
@@ -502,19 +502,19 @@ const EditExistingClient = () => {
                     </div>
 
                     <div className='form-row5'>
-                        <div className='edit-label-input-group'>
+                        <div className='label-input-group'>
                             <label>Additional Note</label>
                             <textarea
-                                className='edit-additional-note'
+                                className='additional-note'
                                 value={additionalNote}
                                 onChange={(e) => setAdditionalNote(e.target.value)}
                             />
                         </div>
                     </div>
                     <div className='bottom-buttons'>
-                        <button type="submit" onClick={handleSaveDraft} className='edit-save-draft'>Save Draft</button>
-                        <button type="submit" onClick={handleSubmit} className='edit-submit'>Submit</button>
-                        <button type="button" onClick={()=>handleDelete(location.state)} className='edit-delete'>Delete</button>
+                        <button type="submit" onClick={handleSaveDraft} className='edit-save-draft-button'>Save Draft</button>
+                        <button type="submit" onClick={handleSubmit} className='edit-submit-button'>Submit</button>
+                        <button type="button" onClick={()=>handleDelete(location.state)} className='edit-delete-button'>Delete</button>
                     </div>
 
                     {isPopupOpen && (

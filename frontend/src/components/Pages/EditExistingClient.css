@@ -1,4 +1,23 @@
-.title {
+.edit-client-page-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin-top: 100px;
+    width: 100vw;
+}
+
+.edit-client-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.edit-title {
     font-family: sans-serif;
     letter-spacing: 2px;
     white-space: nowrap;
@@ -33,49 +52,43 @@
     margin-top: 3px;
 }
 
-.edit-client-page-body {
+.edit-label-input-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    margin-top: 100px;
-    width: 100vw;
+    align-items: flex-start;
+    margin-bottom: 15px; 
 }
 
-
-.edit-client-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-.edit-save-draft, .edit-submit, .edit-delete {
-    background-color: #CB997E;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 16px;
+.edit-label-input-group input {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
+    font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease-in-out;
-    min-width: 100px;
+    box-sizing: border-box;
 }
 
-.edit-save-draft:hover, .edit-submit:hover, .edit-delete:hover {
-    background-color: #d1d5db;
+.edit-label-input-group label {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+    color: #333;
+    display: block;
 }
 
-.edit-save-draft {
-    margin-right: 80px;
+.edit-date-important {
+    text-align: center;
+    width: 100%; 
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
 }
 
-.edit-submit {
-    margin-right: 80px;
+.edit-date-important::placeholder {
+    text-align: center;
 }
 
 .important-date-icon-archiveOn {
@@ -111,63 +124,6 @@
     margin: 1rem 0;
 }
 
-.edit-label-input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px; 
-}
-
-.edit-label-input-group input {
-    padding: 10px;
-    border: 1px solid #938f8f;
-    min-width: 325px;
-    width: fit-content;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    box-sizing: border-box;
-}
-
-.edit-label-input-group textarea {
-    padding: 10px;
-    border: 1px solid #938f8f;
-    min-width: 325px;
-    width: fit-content;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    box-sizing: border-box;
-}
-
-.edit-label-input-group label {
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.edit-note {
-    padding: 15px;
-    width: fit-content;
-    height: fit-content;
-    min-width: 100px;
-    max-width: 300px;
-    max-height: 150px;
-    field-sizing: content;
-    border-color: #938f8f;
-    border-radius: 5px;
-}
-
-.edit-note::placeholder {
-    text-align: center;
-}
-
-/* Hide scrollbar in Webkit browsers (Chrome, Safari) */
-.edit-note::-webkit-scrollbar {
-    display: none;
-}
-
 .edit-date-important {
     text-align: center;
     width: 100%; 
@@ -183,201 +139,47 @@
     text-align: center;
 }
 
-
-.edit-important-date-input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px; 
-}
-
-.edit-important-date-input-group input {
-    padding: 10px;
-    border: 1px solid #938f8f;
-    border-radius: 4px;
-    font-size: 14px;
+.edit-save-draft-button, .edit-submit-button, .edit-delete-button {
+    background-color: #CB997E;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
     font-family: 'Times New Roman', Times, serif;
-    box-sizing: border-box;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out;
+    min-width: 100px;
 }
 
-.edit-important-date-input-group label {
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
-    color: #333;
+.edit-save-draft-button:hover, .edit-submit-button:hover, .edit-delete-button:hover {
+    background-color: #d1d5db;
 }
 
-.edit-important-date-note {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px; 
+.edit-save-draft-button {
+    margin-right: 80px;
 }
 
-.edit-important-date-note input {
-    padding: 10px;
-    border: 1px solid #938f8f;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    box-sizing: border-box;
+.edit-submit-button {
+    margin-right: 80px;
 }
-
-.edit-important-date-note label {
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.edit-additional-note {
-    padding: 15px;
-    width: fit-content;
-    height: fit-content;
-    min-height: 50px;
-    max-height: 150px;
-    min-width: 300px;
-    max-width: 600px;
-    field-sizing: content;
-    border-color: #938f8f;
-}
-
-/* Hide scrollbar in Webkit browsers (Chrome, Safari) */
-.edit-additional-note::-webkit-scrollbar {
-    display: none;
-}
-
-/* Hide scrollbar in IE, Edge, Firefox */
-.note, .edit-additional-note {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-.icon-container {
-    margin-left: 10px;
-}
-
-
-.birthday {
-    padding: 10px;
-    margin-right: 20px;
-}
-
-.birthday::placeholder {
-    text-align: center;
-}
-
-
-.edit-label-birthday-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px; 
-}
-
-.edit-label-birthday-group label {
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.edit-label-birthday-group input {
-    padding: 10px;
-    border: 1px solid #938f8f;
-    min-width: 325px;
-    width: fit-content;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    box-sizing: border-box;
-}
-
-.edit-family-situation {
-    padding: 10px;
-    margin-right: 20px;
-}
-
-.edit-reason-of-knowing {
-    padding: 10px;
-}
-
-
-.edit-hobby {
-    padding: 10px;
-}
-
-.edit-family-situation, .edit-reason-of-knowing, .edit-hobby::placeholder {
-    text-align: center;
-}
-
-/* .edit-label-input-additional-note-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px; 
-    width: 80%;
-}
-
-.edit-label-input-additional-note-group textarea {
-    padding: 10px;
-    border: 1px solid #938f8f;
-    min-width: 325px;
-    width: fit-content;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    box-sizing: border-box;
-}
-
-.edit-label-input-additional-note-group label {
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
-    color: #333;
-}
- */
-
 
 @media (max-width: 768px) {
-    .edit-save-draft {
-        margin-right: 10px;
-    }
-    
-    .edit-submit {
-        margin-right: 10px;
+    .edit-client-container {
+        padding: 15px;
     }
 
-    .edit-label-input-group {
-        width: 100%;
-    }
-
-    .edit-label-input-group input {
-        width: 100%;
+    .edit-save-draft, .edit-submit {
+        margin: 10px 0;
     }
 }
 
-@media (max-width: 680px) {
-    .edit-label-input-group {
-        margin-left: 10px;
-        width: 78%;
+@media (max-width: 480px) {
+    .title {
+        font-size: clamp(20px, 4vw, 30px);
     }
 
-    .edit-important-date-input-group {
-        width: 35%;
+    input, textarea {
+        font-size: 0.9rem;
     }
-
-    /* .edit-family-situation, .edit-reason-of-knowing, .edit-hobby {
-        padding: 15px;
-        width: fit-content;
-        height: fit-content;
-        min-height: 50px;
-        max-height: 150px;
-        min-width: 80px;
-        max-width: 80px;
-        field-sizing: content;
-        border-color: #938f8f;
-        width: 93% !important;
-        float: left;
-    } */
 }

@@ -1,3 +1,23 @@
+.create-client-page-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin-top: 100px;
+    width: 100vw;
+}
+
+
+.create-client-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
 .title {
     font-family: sans-serif;
     letter-spacing: 2px;
@@ -31,26 +51,7 @@
     font-family: 'Times New Roman', Times, serif;
     margin-bottom: 5px;
     color: #333;
-}
-
-.create-client-page-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    margin-top: 100px;
-    width: 100vw;
-}
-
-
-.create-client-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
+    display: block;
 }
 
 .form-scrollable {
@@ -59,15 +60,6 @@
     overflow: auto;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; 
-}
-
-
-label {
-    display: block;
-    font-size: 14px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 5px;
-    color: #333;
 }
 
 .form-row1 {
@@ -121,7 +113,6 @@ label {
     field-sizing: content;
     border-color: #938f8f;
 }
-
 .note {
     padding: 15px;
     width: fit-content;
@@ -182,12 +173,6 @@ label {
 .save-draft {
     margin-right: 80px;
 }
-
-/*
-.submit {
-    margin-right: 80px;
-}
-*/
 
 .name {
     padding: 10px;
