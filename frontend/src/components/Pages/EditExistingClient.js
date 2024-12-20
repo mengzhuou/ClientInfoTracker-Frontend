@@ -511,7 +511,7 @@ const EditExistingClient = () => {
                             />
                         </div>
                     </div>
-                    <div className='bottom-buttons'>
+                    <div className='edit-bottom-buttons'>
                         <button type="submit" onClick={handleSaveDraft} className='edit-save-draft-button'>Save Draft</button>
                         <button type="submit" onClick={handleSubmit} className='edit-submit-button'>Submit</button>
                         <button type="button" onClick={()=>handleDelete(location.state)} className='edit-delete-button'>Delete</button>

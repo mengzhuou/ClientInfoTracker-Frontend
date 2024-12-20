@@ -152,6 +152,11 @@
     min-width: 100px;
 }
 
+.edit-bottom-buttons {
+    text-align: center;
+    padding-top: 8px;
+}
+
 .edit-save-draft-button:hover, .edit-submit-button:hover, .edit-delete-button:hover {
     background-color: #d1d5db;
 }
@@ -229,11 +234,16 @@
         margin-left: 60px;
     }
 
+    .edit-bottom-buttons {
+        margin-top: 20px;
+    }
+
     .edit-save-draft-button {
-        margin-right: 10px;
+        margin-right: 20px;
+        margin-left: 50px;
     }
     
     .edit-submit-button {
-        margin-right: 10px;
+        margin-right: 20px;
     }
 }
