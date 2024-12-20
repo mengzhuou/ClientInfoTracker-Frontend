@@ -392,17 +392,17 @@ const EditExistingClient = () => {
                                 <React.Fragment key={index}>
                                     {isDivider && !isArchive && <hr className="divider-line" />}
                                     <div className="form-row2">
-                                        <div className="edit-label-input-group">
+                                        <div className="edit-important-date-input-group">
                                             <label>Important Date</label>
                                             <DatePicker
-                                                className="date-important"
+                                                className="edit-date-important"
                                                 dateFormat="yyyy/MM/dd"
                                                 selected={row.importantDate}
                                                 placeholderText='YYYY/MM/DD'
                                                 onChange={(date) => handleRowChange(index, "importantDate", date)}
                                             />
                                         </div>
-                                        <div className="edit-label-input-group">
+                                        <div className="edit-important-date-note">
                                             <label>Note</label>
                                             <textarea
                                                 className="edit-note"
@@ -432,7 +432,7 @@ const EditExistingClient = () => {
                     })()}
 
                     <div className='form-row3'>
-                        <div className='edit-label-input-group'>
+                        <div className='edit-label-birthday-group'>
                             <label>Birthday</label>
                             <DatePicker
                                 className='birthday'
@@ -471,7 +471,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Family Situation</label>
                             <textarea
-                                className='family-situation'
+                                className='edit-family-situation'
                                 type="text"
                                 value={familySituation}
                                 onChange={(e) => setFamilySituation(e.target.value)}
@@ -480,7 +480,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Reason of Knowing</label>
                             <textarea
-                                className='reason-of-knowing'
+                                className='edit-reason-of-knowing'
                                 type="text"
                                 value={reasonOfKnowing}
                                 onChange={(e) => setReasonOfKnowing(e.target.value)}
@@ -489,7 +489,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Hobby <span className='must-fill'>*</span></label>
                             <textarea
-                                className='hobby'
+                                className='edit-hobby'
                                 type="text"
                                 value={hobby}
                                 onChange={(e) => {
@@ -505,7 +505,7 @@ const EditExistingClient = () => {
                         <div className='edit-label-input-group'>
                             <label>Additional Note</label>
                             <textarea
-                                className='additional-note'
+                                className='edit-additional-note'
                                 value={additionalNote}
                                 onChange={(e) => setAdditionalNote(e.target.value)}
                             />

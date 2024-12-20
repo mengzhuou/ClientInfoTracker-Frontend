@@ -121,6 +121,19 @@
 .edit-label-input-group input {
     padding: 10px;
     border: 1px solid #938f8f;
+    min-width: 325px;
+    width: fit-content;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.edit-label-input-group textarea {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    min-width: 325px;
+    width: fit-content;
     border-radius: 4px;
     font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
@@ -155,13 +168,184 @@
     display: none;
 }
 
+.edit-date-important {
+    text-align: center;
+    width: 100%; 
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
+}
+
+.edit-date-important::placeholder {
+    text-align: center;
+}
+
+
+.edit-important-date-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px; 
+}
+
+.edit-important-date-input-group input {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.edit-important-date-input-group label {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.edit-important-date-note {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px; 
+}
+
+.edit-important-date-note input {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.edit-important-date-note label {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.edit-additional-note {
+    padding: 15px;
+    width: fit-content;
+    height: fit-content;
+    min-height: 50px;
+    max-height: 150px;
+    min-width: 300px;
+    max-width: 600px;
+    field-sizing: content;
+    border-color: #938f8f;
+}
+
+/* Hide scrollbar in Webkit browsers (Chrome, Safari) */
+.edit-additional-note::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar in IE, Edge, Firefox */
+.note, .edit-additional-note {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.icon-container {
+    margin-left: 10px;
+}
+
+
+.birthday {
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.birthday::placeholder {
+    text-align: center;
+}
+
+
+.edit-label-birthday-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px; 
+}
+
+.edit-label-birthday-group label {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.edit-label-birthday-group input {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    min-width: 325px;
+    width: fit-content;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.edit-family-situation {
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.edit-reason-of-knowing {
+    padding: 10px;
+}
+
+
+.edit-hobby {
+    padding: 10px;
+}
+
+.edit-family-situation, .edit-reason-of-knowing, .edit-hobby::placeholder {
+    text-align: center;
+}
+
+/* .edit-label-input-additional-note-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px; 
+    width: 80%;
+}
+
+.edit-label-input-additional-note-group textarea {
+    padding: 10px;
+    border: 1px solid #938f8f;
+    min-width: 325px;
+    width: fit-content;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+.edit-label-input-additional-note-group label {
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 5px;
+    color: #333;
+}
+ */
+
+
 @media (max-width: 768px) {
     .edit-save-draft {
-        margin-right: 30px;
+        margin-right: 10px;
     }
     
     .edit-submit {
-        margin-right: 30px;
+        margin-right: 10px;
     }
 
     .edit-label-input-group {
@@ -175,7 +359,25 @@
 
 @media (max-width: 680px) {
     .edit-label-input-group {
-        margin-left: 55px;
-        width: 87%;
+        margin-left: 10px;
+        width: 78%;
     }
+
+    .edit-important-date-input-group {
+        width: 35%;
+    }
+
+    /* .edit-family-situation, .edit-reason-of-knowing, .edit-hobby {
+        padding: 15px;
+        width: fit-content;
+        height: fit-content;
+        min-height: 50px;
+        max-height: 150px;
+        min-width: 80px;
+        max-width: 80px;
+        field-sizing: content;
+        border-color: #938f8f;
+        width: 93% !important;
+        float: left;
+    } */
 }
