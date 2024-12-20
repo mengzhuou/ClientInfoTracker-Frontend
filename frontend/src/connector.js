@@ -14,7 +14,7 @@ const getRecords = async () => {
 
 const updateRecord = async (recordId, data) => {
     console.log("Updating Record:", recordId, data);
-    const { name, company, hobby, importantDatesAndNotes } = data;
+    const { name, company, importantDatesAndNotes } = data;
 
     // Frontend Validation
     if (!company || typeof company !== 'string') {
@@ -23,10 +23,6 @@ const updateRecord = async (recordId, data) => {
 
     if (!name || typeof name !== 'string') {
         throw new Error('Name is required and must be a string');
-    }
-
-    if (!hobby || typeof hobby !== 'string') {
-        throw new Error('Hobby is required and must be a string');
     }
 
     if (!Array.isArray(importantDatesAndNotes)) {
@@ -50,7 +46,7 @@ const updateRecord = async (recordId, data) => {
 
 const updateDraft = async (draftId, data) => {
     console.log("Updating Draft:", draftId, data);
-    const { name, company, hobby, importantDatesAndNotes } = data;
+    const { name, company, importantDatesAndNotes } = data;
 
     if (!company || typeof company !== 'string') {
         throw new Error('Company is required and must be a string');
@@ -58,10 +54,6 @@ const updateDraft = async (draftId, data) => {
 
     if (!name || typeof name !== 'string') {
         throw new Error('Name is required and must be a string');
-    }
-
-    if (!hobby || typeof hobby !== 'string') {
-        throw new Error('Hobby is required and must be a string');
     }
 
     if (!Array.isArray(importantDatesAndNotes)) {
@@ -84,7 +76,7 @@ const updateDraft = async (draftId, data) => {
 };
 
 const createRecord = async (data) => {
-    const { name, company, hobby, importantDatesAndNotes } = data;
+    const { name, company, importantDatesAndNotes } = data;
 
     if (!company || typeof company !== 'string') {
         throw new Error('Company is required and must be a string');
@@ -92,10 +84,6 @@ const createRecord = async (data) => {
 
     if (!name || typeof name !== 'string') {
         throw new Error('Name is required and must be a string');
-    }
-
-    if (!hobby || typeof hobby !== 'string') {
-        throw new Error('Hobby is required and must be a string');
     }
 
     if (!Array.isArray(importantDatesAndNotes)) {

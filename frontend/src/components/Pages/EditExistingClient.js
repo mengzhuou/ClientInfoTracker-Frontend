@@ -32,7 +32,6 @@ const EditExistingClient = () => {
 
     const [nameError, setNameError] = useState('');
     const [companyError, setCompanyError] = useState('');
-    const [hobbyError, setHobbyError] = useState('');
     const [emailError, setEmailError] = useState('');
 
     const [isArchive, setIsArchive] = useState(true);
@@ -96,16 +95,6 @@ const EditExistingClient = () => {
         }
     };
     
-    const validateHobby = (hobby) => {
-        if (hobby.trim()) {
-            setHobbyError('');
-            return true;
-        } else {
-            setHobbyError('Hobby is required.');
-            return false;
-        }
-    };
-    
     const validateEmail = (email) => {
         if (email.trim() === '') {
             setEmailError(''); // No error if the field is empty
@@ -132,10 +121,9 @@ const EditExistingClient = () => {
     const validateForm = () => {
         const isNameValid = validateName(name);
         const isCompanyValid = validateCompany(company);
-        const isHobbyValid = validateHobby(hobby);
         const isEmailValid = validateEmail(email);
     
-        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
+        return isNameValid && isCompanyValid && isEmailValid;
     };
 
     const resetFields = () => {
@@ -487,17 +475,15 @@ const EditExistingClient = () => {
                             />
                         </div>
                         <div className='edit-label-input-group'>
-                            <label>Hobby <span className='must-fill'>*</span></label>
+                            <label>Hobby</label>
                             <textarea
                                 className='hobby'
                                 type="text"
                                 value={hobby}
                                 onChange={(e) => {
                                     setHobby(e.target.value);
-                                    validateHobby(e.target.value);
                                 }}
                             />
-                            <span className='error-message'>{hobbyError}</span>
                         </div>
                     </div>
 

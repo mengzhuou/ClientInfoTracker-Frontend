@@ -28,7 +28,6 @@ const CreateClient = (props) => {
     const [emailError, setEmailError] = useState('');
     const [nameError, setNameError] = useState('');
     const [companyError, setCompanyError] = useState('');
-    const [hobbyError, setHobbyError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,7 +37,6 @@ const CreateClient = (props) => {
     
         if (name === 'name') validateName(value);
         if (name === 'company') validateCompany(value);
-        if (name === 'hobby') validateHobby(value);
         if (name === 'email') validateEmail(value);
     };
     
@@ -53,10 +51,9 @@ const CreateClient = (props) => {
     const validateForm = () => {
         const isNameValid = validateName(formData.name);
         const isCompanyValid = validateCompany(formData.company);
-        const isHobbyValid = validateHobby(formData.hobby);
         const isEmailValid = validateEmail(formData.email);
     
-        return isNameValid && isCompanyValid && isHobbyValid && isEmailValid;
+        return isNameValid && isCompanyValid && isEmailValid;
     };
 
     const validateName = (name) => {
@@ -78,16 +75,6 @@ const CreateClient = (props) => {
             return false;
         }
     };
-    
-    const validateHobby = (hobby) => {
-        if (hobby.trim()) {
-            setHobbyError('');
-            return true;
-        } else {
-            setHobbyError('Hobby is required');
-            return false;
-        }
-    };  
 
     const validateEmail = (email) => {
         if (email.trim() === '') {
@@ -371,7 +358,7 @@ const CreateClient = (props) => {
                             />
                         </div>
                         <div className='label-input-group'>
-                            <label>Hobby <span className='must-fill'>*</span></label>
+                            <label>Hobby</label>
                             <textarea
                                 className='hobby'
                                 type="text"
@@ -379,7 +366,6 @@ const CreateClient = (props) => {
                                 value={formData.hobby}
                                 onChange={handleChange}
                             />
-                            <span className='errMessage'>{hobbyError}</span>
                         </div>
                     </div>
 
