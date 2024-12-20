@@ -88,6 +88,8 @@
     display: flex;
     gap: 20px;
     padding-top: 8px;
+    justify-content: center;
+    margin-right: 10px;
 }
 
 .form-row5 {
@@ -106,13 +108,15 @@
     padding: 15px;
     width: fit-content;
     height: fit-content;
-    min-height: 50px;
+    min-height: 100px;
     max-height: 150px;
-    min-width: 300px;
+    min-width: 550px;
     max-width: 600px;
     field-sizing: content;
     border-color: #938f8f;
+    margin-right: 30px;
 }
+
 .note {
     padding: 15px;
     width: fit-content;
@@ -202,6 +206,7 @@
 
 .email {
     padding: 10px;
+    margin-right: 20px;
 }
 
 .email::placeholder {
@@ -211,7 +216,6 @@
 .family-situation {
     padding: 10px;
     margin-right: 20px;
-    
 }
 
 .family-situation::placeholder {
@@ -220,6 +224,7 @@
 
 .reason-of-knowing {
     padding: 10px;
+    margin-right: 20px;
 }
 
 .reason-of-knowing::placeholder {
@@ -229,6 +234,12 @@
 .birthday {
     padding: 10px;
     margin-right: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    border: 1px solid #938f8f;
+    border-radius: 4px;
 }
 
 .birthday::placeholder {

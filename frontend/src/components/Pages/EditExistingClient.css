@@ -117,6 +117,18 @@
     color: rgb(245, 131, 131);
 }
 
+.edit-note {
+    padding: 15px;
+    width: fit-content;
+    height: fit-content;
+    min-width: 100px;
+    max-width: 300px;
+    max-height: 150px;
+    field-sizing: content;
+    border-color: #938f8f;
+    border-radius: 5px;
+}
+
 .divider-line {
     border: 0;
     height: 1px;
