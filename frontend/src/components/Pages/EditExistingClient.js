@@ -142,6 +142,7 @@ const EditExistingClient = () => {
 
     const handleAddRow = () => {
         setImportantDatesAndNotes([...importantDatesAndNotes, { importantDate: '', note: '' }]);
+        setIsArchive(false);
     };
 
     const handleRemoveRow = (index) => {
