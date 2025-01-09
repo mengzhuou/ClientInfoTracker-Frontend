@@ -36,7 +36,7 @@ class RecordTable extends Component {
                     headerName: "Important Date",
                     cellRenderer: this.importantDateFormatter,
                     sortable: true,
-                    cellStyle: { 'white-space': 'pre' },
+                    cellStyle: { 'white-space': 'pre', 'line-height': '2' },
                     flex: 1.7,
                     wrapText: true,
                     autoHeight: true,
