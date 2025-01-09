@@ -414,11 +414,25 @@
         float: left;
     }
 
-    .family-situation, .reason-of-knowing, .hobby {
+    .family-situation {
         padding: 15px;
         width: fit-content;
         height: fit-content;
         min-height: 50px;
+        max-height: 150px;
+        min-width: 300px;
+        max-width: 600px;
+        field-sizing: content;
+        border-color: #938f8f;
+        width: 93% !important;
+        float: left;
+    }
+
+    .hobby, .reason-of-knowing {
+        padding: 15px;
+        width: fit-content;
+        height: fit-content;
+        min-height: 10px;
         max-height: 150px;
         min-width: 300px;
         max-width: 600px;
