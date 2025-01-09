@@ -14,7 +14,7 @@ class RecordTable extends Component {
                     headerName: "Name",
                     field: "name",
                     sortable: true,
-                    flex: 1,
+                    flex: 1.8,
                     comparator: (valueA, valueB) => {
                         if (!valueA) return -1; // Treat null/undefined as smaller
                         if (!valueB) return 1;
@@ -25,7 +25,7 @@ class RecordTable extends Component {
                     headerName: "Company",
                     field: "company",
                     sortable: true,
-                    flex: 1.5,
+                    flex: 1.3,
                     comparator: (valueA, valueB) => {
                         if (!valueA) return -1; // Treat null/undefined as smaller
                         if (!valueB) return 1;
@@ -37,7 +37,7 @@ class RecordTable extends Component {
                     cellRenderer: this.importantDateFormatter,
                     sortable: true,
                     cellStyle: { 'white-space': 'pre' },
-                    flex: 2,
+                    flex: 1.7,
                     wrapText: true,
                     autoHeight: true,
                     comparator: (valueA, valueB) => {
