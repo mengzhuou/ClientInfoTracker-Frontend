@@ -234,7 +234,14 @@
     }
 }
 
+/* iphone 6/7/8 */
 @media (max-width: 680px) {
+    input,
+    textarea,
+    select {
+        font-size: 16px; /* Prevent zooming */
+    }
+
     .edit-label-input-group {
         margin-left: 55px;
         width: 87%;
