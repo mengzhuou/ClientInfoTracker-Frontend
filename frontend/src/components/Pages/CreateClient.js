@@ -107,7 +107,13 @@ const CreateClient = (props) => {
         const importantDatesAndNotes = dateNoteRows.map((row) => ({
             importantDate: row.importantDate ? row.importantDate.toISOString() : null,
             note: row.note || '',
+            isOnlyMonth: row.isOnlyMonth, 
         }));
+        // const updatedNotes = (row.importantDatesAndNotes || []).map((item) => ({
+        //     importantDate: item?.importantDate ? new Date(item.importantDate) : null,
+        //     note: item?.note || '',
+        //     isOnlyMonth: Boolean(item?.isOnlyMonth),
+        // }));
     
         const draftDetails = {
             ...formData,
@@ -139,6 +145,7 @@ const CreateClient = (props) => {
         const importantDatesAndNotes = dateNoteRows.map((row) => ({
             importantDate: row.importantDate ? row.importantDate.toISOString() : null,
             note: row.note || '',
+            isOnlyMonth: row.isOnlyMonth, 
         }));
     
         const clientDetails = {
@@ -190,7 +197,10 @@ const CreateClient = (props) => {
     };
 
     const addRow = () => {
-        setDateNoteRows([...dateNoteRows, { importantDate: '', note: '' }]);
+        setDateNoteRows([
+            ...dateNoteRows, 
+            { importantDate: '', note: '', isOnlyMonth: false }
+        ]);
     };
 
     const removeRow = (index) => {
@@ -251,14 +261,25 @@ const CreateClient = (props) => {
                     {dateNoteRows.map((row, index) => (
                         <div key={index} className='form-row2'>
                             <div className='label-input-group'>
-                                <label>Important Date</label>
+                                <div className='date-container'>
+                                    <label>Important Date</label>
+                                    <label className="mm-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            checked={row.isOnlyMonth || false}
+                                            onChange={() => handleRowChange(index, "isOnlyMonth", !row.isOnlyMonth)}
+                                        />
+                                        MM
+                                    </label>
+                                </div>
                                 <DatePicker
                                     className="date-important"
-                                    dateFormat="yyyy/MM/dd"
+                                    dateFormat={row.isOnlyMonth ? "yyyy/MM" : "yyyy/MM/dd"}
                                     selected={row.importantDate}
                                     onChange={(date) => handleImportantDateChange(index, date)}
-                                    placeholderText='YYYY/MM/DD'
+                                    placeholderText={row.isOnlyMonth ? "YYYY/MM" : "YYYY/MM/DD"}
                                     portalId="root-portal"
+                                    showMonthYearPicker={row.isOnlyMonth}
                                 />
                             </div>
                             <div className='label-input-group'>

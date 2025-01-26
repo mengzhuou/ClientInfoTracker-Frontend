@@ -174,12 +174,11 @@ const EditExistingClient = () => {
             phoneNumber,
             email,
             additionalNote,
-            importantDatesAndNotes: importantDatesAndNotes.map(row => ({
-                importantDate: row.importantDate instanceof Date && !isNaN(row.importantDate)
-                    ? row.importantDate.toISOString()
-                    : null, // Ensure it's a valid Date object or null
+            importantDatesAndNotes: importantDatesAndNotes.map((row) => ({
+                importantDate: row.importantDate,
                 note: row.note,
-            })),
+                isOnlyMonth: row.isOnlyMonth, // Set the flag based on the checkbox
+            })), 
             draftStatus: true,
         };
 
