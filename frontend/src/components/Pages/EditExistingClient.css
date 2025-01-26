@@ -37,6 +37,23 @@
     margin-bottom: 20px;
 }
 
+.date-container {
+    display: flex;
+    align-items: center; /* Aligns the DatePicker and checkbox vertically */
+    gap: 10px; /* Adds space between the DatePicker and the checkbox */
+}
+
+.mm-checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.mm-checkbox input {
+    margin-right: 5px; /* Adds spacing between the checkbox and "MM" label */
+}
+
 .updateLabel {
     color: #9C9C9C;
 }

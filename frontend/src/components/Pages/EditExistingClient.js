@@ -61,14 +61,13 @@ const EditExistingClient = () => {
                 setIsOnlyOneImportantEventRecord(true);
                 setIsArchive(false);
             }
-            setImportantDatesAndNotes(
-                row.importantDatesAndNotes
-                    ? row.importantDatesAndNotes.map(item => ({
-                          importantDate: item.importantDate ? new Date(item.importantDate) : null,
-                          note: item.note,
-                      }))
-                    : []
-            );
+            const updatedNotes = (row.importantDatesAndNotes || []).map((item) => ({
+                importantDate: item?.importantDate ? new Date(item.importantDate) : null,
+                note: item?.note || '',
+                isOnlyMonth: Boolean(item?.isOnlyMonth),
+            }));
+            setImportantDatesAndNotes(updatedNotes);
+            
         } else {
             console.error("No data found");
             navigate('/MainPage'); // Redirect to main page if no data is found
@@ -84,7 +83,7 @@ const EditExistingClient = () => {
             return false;
         }
     };
-    
+
     const validateCompany = (company) => {
         if (company.trim()) {
             setCompanyError('');
@@ -141,7 +140,10 @@ const EditExistingClient = () => {
     };
 
     const handleAddRow = () => {
-        setImportantDatesAndNotes([...importantDatesAndNotes, { importantDate: '', note: '' }]);
+        setImportantDatesAndNotes([
+            ...importantDatesAndNotes, 
+            { importantDate: '', note: '', isOnlyMonth: false}
+        ]);
         setIsArchive(false);
     };
 
@@ -198,7 +200,6 @@ const EditExistingClient = () => {
         e.preventDefault();
 
         if (!validateForm()) return;
-
         const clientDetails = {
             name,
             company,
@@ -210,12 +211,11 @@ const EditExistingClient = () => {
             phoneNumber,
             email,
             additionalNote,
-            importantDatesAndNotes: importantDatesAndNotes.map(row => ({
-                importantDate: row.importantDate instanceof Date && !isNaN(row.importantDate)
-                    ? row.importantDate.toISOString()
-                    : null, // Ensure it's a valid Date object or null
+            importantDatesAndNotes: importantDatesAndNotes.map((row) => ({
+                importantDate: row.importantDate,
                 note: row.note,
-            })),
+                isOnlyMonth: row.isOnlyMonth, // Set the flag based on the checkbox
+            })), 
             draftStatus: false,
         };
 
@@ -382,14 +382,27 @@ const EditExistingClient = () => {
                                     {isDivider && !isArchive && <hr className="divider-line" />}
                                     <div className="form-row2">
                                         <div className="edit-label-input-group">
-                                            <label>Important Date</label>
+                                            <div className='date-container'>
+                                                <label>Important Date</label>
+                                                <label className="mm-checkbox">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={row.isOnlyMonth || false}
+                                                        onChange={() => handleRowChange(index, "isOnlyMonth", !row.isOnlyMonth)}
+                                                    />
+                                                    MM
+                                                </label>
+                                            </div>
                                             <DatePicker
                                                 className="edit-date-important"
-                                                dateFormat="yyyy/MM/dd"
+                                                dateFormat={row.isOnlyMonth ? "yyyy/MM" : "yyyy/MM/dd"}
                                                 selected={row.importantDate}
-                                                placeholderText='YYYY/MM/DD'
+                                                placeholderText={row.isOnlyMonth ? "YYYY/MM" : "YYYY/MM/DD"}
                                                 onChange={(date) => handleRowChange(index, "importantDate", date)}
+                                                showMonthYearPicker={row.isOnlyMonth}
                                             />
+
+                                            
                                         </div>
                                         <div className="edit-label-input-group">
                                             <label>Note</label>
